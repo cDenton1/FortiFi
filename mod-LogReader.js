@@ -16,24 +16,45 @@ exports.logReader = function (req, res) {
     let sshTraf = [];
     let dhcpTraf = [];
 
+    function highlightText(text) {
+        return text
+            .replace(/HTTP/g, '<span class="highlight-http">HTTP</span>')
+            .replace(/FTP/g, '<span class="highlight-ftp">FTP</span>')
+            .replace(/SSH/g, '<span class="highlight-ssh">SSH</span>')
+            .replace(/DHCP/g, '<span class="highlight-dhcp">DHCP</span>');
+    }
+
     rl.on('line', (line) => {
         if (line.includes('[!]')) {
-            allWarnTraf.push(line);
-            if (line.includes('HTTP')) httpTraf.push(line);
-            if (line.includes('FTP')) ftpTraf.push(line);
-            if (line.includes('SSH')) sshTraf.push(line);
-            if (line.includes('DHCP')) dhcpTraf.push(line);
+            const highlightedLine = highlightText(line);
+            allWarnTraf.push(highlightedLine);
+            if (line.includes('HTTP')) httpTraf.push(highlightedLine);
+            if (line.includes('FTP')) ftpTraf.push(highlightedLine);
+            if (line.includes('SSH')) sshTraf.push(highlightedLine);
+            if (line.includes('DHCP')) dhcpTraf.push(highlightedLine);
         }
     });
 
     rl.on('close', () => {
         let output = `
-            <button onclick="window.location.search='format=${nextFormat}'">
-                Sort by ${nextFormat}
-            </button>
-            <h2>Sorting By ${format}</h2>
-            <button id="toggle-box" onclick="toggleBox()">Toggle Box View</button>
-            
+            <h2>Alerts</h2>
+
+            <script>
+                let isBoxView = true;
+
+                function toggleBox() {
+                    const logBox = document.getElementById('log-box');
+                    if (isBoxView) {
+                        logBox.style.overflowY = 'unset'; // Remove scroll
+                        logBox.style.maxHeight = 'unset'; // Remove max height
+                    } else {
+                        logBox.style.overflowY = 'scroll'; // Add scroll
+                        logBox.style.maxHeight = '400px'; // Set max height
+                    }
+                    isBoxView = !isBoxView; // Toggle the view
+                }
+            </script>
+
             <style>
                 .log-container {
                     font-family: monospace;
@@ -56,12 +77,43 @@ exports.logReader = function (req, res) {
                 }
 
                 #log-box {
-                    max-height: 300px;
+                    max-height: 400px;
                     overflow-y: scroll;
                 }
-            </style>`;
 
-        // If sorting by 'Type', use scrollable box
+                /* Highlighting styles */
+                .highlight-http {
+                    background-color: lightblue;
+                    padding: 2px;
+                    font-weight: bold;
+                }
+
+                .highlight-ftp {
+                    background-color: lightgreen;
+                    padding: 2px;
+                    font-weight: bold;
+                }
+
+                .highlight-ssh {
+                    background-color: lightcoral;
+                    padding: 2px;
+                    font-weight: bold;
+                }
+
+                .highlight-dhcp {
+                    background-color: lightgoldenrodyellow;
+                    padding: 2px;
+                    font-weight: bold;
+                }
+            </style>
+
+            <button id="toggle-box" onclick="toggleBox()">Toggle Box View</button>
+            <button onclick="window.location.search='format=${nextFormat}'">
+                Sort by ${nextFormat}
+            </button>
+
+        `;
+
         if (format === 'Type') {
             output += `<div id="log-box" class="log-container">`;
 
@@ -87,31 +139,10 @@ exports.logReader = function (req, res) {
 
             output += `</div>`;
         } else if (format === 'Date') {
-            // If sorting by 'Date', show logs directly on the page
             output += `<div id="log-box" class="log-container">`;
-
             allWarnTraf.forEach(line => output += line + '<br>');
-
             output += `</div>`;
         }
-
-        // Inject JavaScript to toggle log display (box/no box)
-        output += `
-            <script>
-                let isBoxView = true;
-
-                function toggleBox() {
-                    const logBox = document.getElementById('log-box');
-                    if (isBoxView) {
-                        logBox.style.overflowY = 'unset'; // Remove scroll
-                        logBox.style.maxHeight = 'unset'; // Remove max height
-                    } else {
-                        logBox.style.overflowY = 'scroll'; // Add scroll
-                        logBox.style.maxHeight = '300px'; // Set max height
-                    }
-                    isBoxView = !isBoxView; // Toggle the view
-                }
-            </script>`;
 
         res.write(output);
         res.end();
