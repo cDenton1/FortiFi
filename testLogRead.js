@@ -1,9 +1,9 @@
-var http = require('http');
+var https = require('node:http');
 var fs = require('fs');
 var url = require('url')
 var readline = require('readline');
 
-http.createServer(function (req, res) {
+https.createServer(function (req, res) {
     const fileStream = fs.createReadStream('alerts.log');
     const rl = readline.createInterface({input: fileStream});
 
