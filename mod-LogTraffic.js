@@ -41,7 +41,7 @@ exports.logReader = function (req, callback) {
                 <link rel="stylesheet" href="./styles.css">
             </head>
 
-            <h2>Alerts</h2>
+            <h2>Traffic</h2>
             
             <script>
                 let isBoxView = true;
