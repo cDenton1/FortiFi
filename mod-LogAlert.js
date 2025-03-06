@@ -1,3 +1,4 @@
+
 var fs = require('fs');
 var url = require('url');
 var readline = require('readline');
@@ -37,6 +38,10 @@ exports.logReader = function (req, res) {
 
     rl.on('close', () => {
         let output = `
+            <head>
+                <link rel="stylesheet" href="./styles.css">
+            </head>
+
             <h2>Alerts</h2>
 
             <script>
@@ -54,58 +59,6 @@ exports.logReader = function (req, res) {
                     isBoxView = !isBoxView; // Toggle the view
                 }
             </script>
-
-            <style>
-                .log-container {
-                    font-family: monospace;
-                    margin: 20px;
-                    padding: 10px;
-                    background-color: #f4f4f4;
-                    border: 1px solid #ccc;
-                }
-
-                .log-container h3 {
-                    margin-bottom: 5px;
-                    color: #333;
-                }
-
-                .log-container button {
-                    margin: 5px;
-                    padding: 5px;
-                    font-size: 14px;
-                    cursor: pointer;
-                }
-
-                #log-box {
-                    max-height: 300px;
-                    overflow-y: scroll;
-                }
-
-                /* Highlighting styles */
-                .highlight-http {
-                    background-color: lightblue;
-                    padding: 2px;
-                    font-weight: bold;
-                }
-
-                .highlight-ftp {
-                    background-color: lightgreen;
-                    padding: 2px;
-                    font-weight: bold;
-                }
-
-                .highlight-ssh {
-                    background-color: lightcoral;
-                    padding: 2px;
-                    font-weight: bold;
-                }
-
-                .highlight-dhcp {
-                    background-color: lightgoldenrodyellow;
-                    padding: 2px;
-                    font-weight: bold;
-                }
-            </style>
 
             <button id="toggle-box" onclick="toggleBox()">Toggle Box View</button>
             <button onclick="window.location.search='format=${nextFormat}'">

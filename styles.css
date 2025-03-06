@@ -1,0 +1,49 @@
+    .log-container {
+        font-family: monospace;
+        margin: 20px;
+        padding: 10px;
+        background-color: #f4f4f4;
+        border: 1px solid #ccc;
+    }
+
+    .log-container h3 {
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .log-container button {
+        margin: 5px;
+        padding: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    #log-box {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+
+    /* Highlighting styles */
+    .highlight-http {
+        background-color: lightblue;
+        padding: 2px;
+        font-weight: bold;
+    }
+
+    .highlight-ftp {
+        background-color: lightgreen;
+        padding: 2px;
+        font-weight: bold;
+    }
+
+    .highlight-ssh {
+        background-color: lightcoral;
+        padding: 2px;
+        font-weight: bold;
+    }
+
+    .highlight-dhcp {
+        background-color: lightgoldenrodyellow;
+        padding: 2px;
+        font-weight: bold;
+    }
