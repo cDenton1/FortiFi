@@ -8,17 +8,21 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+function sendEmail(mailOptions) {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
+
 const mailOptions = {
-  from: "fortifiids@gmail.com",
-  to: "denton.c19@gmail.com",
-  subject: "Mobile Alert",
-  text: "This is a test email alert!"
+    to: "nathanpenzo@gmail.com",
+    subject: "Mobile Alert",
+    text: "I love you pookie!"
 };
 
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Email sent: " + info.response);
-  }
-});
+
+sendEmail(mailOptions);
