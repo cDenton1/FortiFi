@@ -49,7 +49,7 @@ exports.logReader = function (req, res) {
                         logBox.style.maxHeight = 'unset'; // Remove max height
                     } else {
                         logBox.style.overflowY = 'scroll'; // Add scroll
-                        logBox.style.maxHeight = '400px'; // Set max height
+                        logBox.style.maxHeight = '300px'; // Set max height
                     }
                     isBoxView = !isBoxView; // Toggle the view
                 }
@@ -77,7 +77,7 @@ exports.logReader = function (req, res) {
                 }
 
                 #log-box {
-                    max-height: 400px;
+                    max-height: 300px;
                     overflow-y: scroll;
                 }
 
