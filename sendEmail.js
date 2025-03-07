@@ -19,10 +19,9 @@ function sendEmail(mailOptions) {
   }
 
 const mailOptions = {
-    to: "nathanpenzo@gmail.com",
+    to: "",
     subject: "Mobile Alert",
-    text: "I love you pookie!"
+    text: ""
 };
-
 
 sendEmail(mailOptions);
