@@ -1,14 +1,14 @@
-var fs = require('fs');
-var url = require('url');
-var readline = require('readline');
-
 exports.logReader = function (req, callback) {
+    const fs = require('fs');
+    const url = require('url');
+    const readline = require('readline');
+
     const fileStream = fs.createReadStream('alerts.log');
     const rl = readline.createInterface({ input: fileStream });
 
     const parsedUrl = url.parse(req.url, true);
-    const format = parsedUrl.query.format || 'Type';
-    const nextFormat = format === 'Type' ? 'Date' : 'Type';
+    const formatAlert = parsedUrl.query.formatAlert || 'Type';
+    const nextFormatAlert = formatAlert === 'Type' ? 'Date' : 'Type';
 
     let allWarnTraf = [];
     let httpTraf = [];
@@ -41,31 +41,22 @@ exports.logReader = function (req, callback) {
                 <link rel="stylesheet" href="./styles.css">
             </head>
 
-            <h2>Alerts</h2>
-            
-            <script>
-                let isBoxView = true;
-                function toggleBox() {
-                    const logBox = document.getElementById('log-box');
-                    if (isBoxView) {
-                        logBox.style.overflowY = 'unset';
-                        logBox.style.maxHeight = 'unset';
-                    } else {
-                        logBox.style.overflowY = 'scroll';
-                        logBox.style.maxHeight = '300px';
-                    }
-                    isBoxView = !isBoxView;
-                }
-            </script>
+            <!-- Go Back to Main Page Button -->
+            <button onclick="window.location.href='/'">Go Back to Main Page</button>
 
-            <button id="toggle-box" onclick="toggleBox()">Toggle Box View</button>
-            <button onclick="window.location.search='format=${nextFormat}'">
-                Sort by ${nextFormat}
-            </button>
-            <div id="log-box" class="log-container">
+            <!-- Section toggle buttons -->
+            <button onclick="toggleSection('alerts')">Go to Alerts View</button>
+            <button onclick="toggleSection('traffic')">Go to Traffic View</button>
+
+            <div id="alert-section" class="section">
+                <h2 id="alert-header">Alerts</h2>
+                <div id="alert-buttons">
+                    <button onclick="updateQueryParam('formatAlert', '${nextFormatAlert}')">Sort Alerts by ${nextFormatAlert}</button>
+                </div>
+                <div id="log-box" class="log-container">
         `;
 
-        if (format === 'Type') {
+        if (formatAlert === 'Type') {
             if (httpTraf.length > 0) {
                 output += '<h3>HTTP Detected:</h3>';
                 httpTraf.forEach(line => output += line + '<br>');
@@ -86,7 +77,46 @@ exports.logReader = function (req, callback) {
             allWarnTraf.forEach(line => output += line + '<br>');
         }
 
-        output += '</div>';
-        callback(output); // Pass the final HTML output to the callback
+        output += `</div>
+            </div>
+            <script>
+                // Toggle visibility of sections
+                function toggleSection(section) {
+                    const alertSection = document.getElementById('alert-section');
+                    const trafficSection = document.getElementById('traffic-section');
+                    const alertHeader = document.getElementById('alert-header');
+                    const trafficHeader = document.getElementById('traffic-header');
+                    const alertButtons = document.getElementById('alert-buttons');
+                    const trafficButtons = document.getElementById('traffic-buttons');
+
+                    // Hide both sections initially
+                    alertSection.style.display = 'none';
+                    trafficSection.style.display = 'none';
+                    alertHeader.style.display = 'none';
+                    trafficHeader.style.display = 'none';
+                    alertButtons.style.display = 'none';
+                    trafficButtons.style.display = 'none';
+
+                    // Hide other section's toggle buttons when showing a section
+                    if (section === 'alerts') {
+                        alertSection.style.display = 'block';
+                        alertHeader.style.display = 'block';
+                        alertButtons.style.display = 'block';
+                    } else if (section === 'traffic') {
+                        trafficSection.style.display = 'block';
+                        trafficHeader.style.display = 'block';
+                        trafficButtons.style.display = 'block';
+                    }
+                }
+
+                // Function to change URL parameters (sorting logic)
+                function updateQueryParam(param, value) {
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.set(param, value);
+                    window.location.href = currentUrl.toString();
+                }
+            </script>
+        `;
+        callback(output);
     });
 };
