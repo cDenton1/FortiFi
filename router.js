@@ -8,7 +8,7 @@ document.querySelectorAll('.sidebar-icon').forEach(icon => {
 
 // Route handler
 function handleRoute() {
-    const pages = ['dashboard', 'devices', 'traffic', 'alerts', 'rules', 'config'];
+    const pages = ['dashboard', 'devices', 'traffic', 'alerts', 'config'];
     const hash = window.location.hash.substring(1) || 'dashboard';
 
     pages.forEach(page => {
