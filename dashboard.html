@@ -14,7 +14,7 @@
         <i class="fas fa-laptop sidebar-icon" title="Devices" data-page="devices"></i>
         <i class="fas fa-chart-line sidebar-icon" title="Traffic" data-page="traffic"></i>
         <i class="fas fa-bell sidebar-icon" title="Alerts" data-page="alerts"></i>
-        <i class="fas fa-cog sidebar-icon" title="Configuration" data-page="config"></i>
+        <i class="fas fa-cog sidebar-icon" title="Miscellaneous" data-page="misc"></i>
         <i class="fas fa-cog sidebar-icon settings-cog" title="Settings"></i>
     </div>
 
@@ -115,23 +115,23 @@
     </div>
 
     <!-- Configuration Page -->
-    <div class="main-content hidden" id="config-page">
+    <div class="main-content hidden" id="misc-page">
         <h1>System Configuration</h1>
-        <div class="config-sections">
-            <div class="config-card" onclick="showConfig('alert-rules')">
+        <div class="misc-sections">
+            <div class="misc-card" onclick="showConfig('alert-rules')">
                 <i class="fas fa-bell"></i>
                 <h3>Alert Rules</h3>
             </div>
-            <div class="config-card" onclick="showConfig('device-management')">
+            <div class="misc-card" onclick="showConfig('device-management')">
                 <i class="fas fa-laptop"></i>
                 <h3>Device Management</h3>
             </div>
-            <div class="config-card" onclick="showConfig('notifications')">
+            <div class="misc-card" onclick="showConfig('notifications')">
                 <i class="fas fa-envelope"></i>
                 <h3>Notifications</h3>
             </div>
         </div>
-        <div id="config-details"></div>
+        <div id="misc-details"></div>
     </div>
 
     <!-- Scripts -->
