@@ -26,21 +26,8 @@ function loadUsers() {
     return {};
 }
 
-// Save users to file
-function saveUsers(users) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
-
 // Initialize with default user if empty
 let users = loadUsers();
-if (!users.admin) {
-    bcrypt.hash("password", SALT_ROUNDS, (err, hash) => {
-        if (!err) {
-            users.admin = hash;
-            saveUsers(users);
-        }
-    });
-}
 
 // Authentication
 function isAuthenticated(req, res, next) {
@@ -100,61 +87,7 @@ app.get('/', (req, res) => {
                 <input type="password" name="password" required>
                 <button type="submit">Login</button>
             </form>
-            <p>Don't have an account? <a href="/register">Register</a></p>
-        </body>
-        </html>
-    `);
-});
-
-app.get('/register', (req, res) => {
-    res.send(`
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    height: 100vh;
-                    margin: 0;
-                    text-align: center;
-                    font-weight: normal;
-                }
-                h3, label {
-                    font-weight: normal;
-                }
-                #loginImage {
-                    width: 700px;
-                    height: auto;
-                    margin: 0px 0;
-                }
-                form {
-                    margin: 10px 0;
-                }
-                input {
-                    margin: 5px;
-                    padding: 8px;
-                    width: 200px;
-                }
-                button {
-                    padding: 8px 16px;
-                    margin-top: 0px;
-                }
-            </style>
-        </head>
-        <body>
-            <h3>Register</h3>
-            <img id="loginImage" src="/assets/image.png">
-            <form action="/register" method="POST">
-                <label>Username:</label>
-                <input type="text" name="username" required>
-                <label>Password:</label>
-                <input type="password" name="password" required>
-                <button type="submit">Register</button>
-            </form>
-            <p><a href="/">Back to login</a></p>
+            <p>Remember to change the default password!</p>
         </body>
         </html>
     `);
@@ -172,6 +105,10 @@ app.post('/register', (req, res) => {
         res.send("Registration successful. <a href='/'>Login here</a>");
     });
 });
+// Save users to file
+function saveUsers(users) {
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+}
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;

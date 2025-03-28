@@ -48,7 +48,7 @@ body {
     color: var(--primary-color);
 }
 
-.settings-cog {
+.sidebar-icon-bottom {
     margin-top: auto;
 }
 
@@ -305,6 +305,58 @@ body {
     padding: 2px;
     font-weight: bold;
 }
+
+
+/* Modal Overlay */
+.config-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Make sure it's on top */
+}
+
+.config-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 85%; /* Set the width to 75% of the screen */
+    height: 90%; /* Optional: set height to 80% of the screen */
+    overflow-y: auto; /* Allow scrolling if content exceeds height */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.close-modal-btn {
+    background-color: rgb(100, 100, 100);
+    color: white;
+    border: none;
+    padding: 0; /* Remove padding to avoid affecting the center */
+    font-size: 15px; /* Adjust font size to fit the button */
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 30px; /* Fixed width */
+    height: 30px; /* Fixed height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Ensure the "X" is centered horizontally */
+    line-height: 1; /* Fix any vertical alignment issues */
+}
+
+.close-modal-btn:hover {
+    background-color: #905858;
+}
+
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

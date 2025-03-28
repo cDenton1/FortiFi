@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FortiFi Security Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/Assets/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
         <i class="fas fa-chart-line sidebar-icon" title="Traffic" data-page="traffic"></i>
         <i class="fas fa-bell sidebar-icon" title="Alerts" data-page="alerts"></i>
         <i class="fas fa-cog sidebar-icon" title="Configuration" data-page="config"></i>
-        <i class="fas fa-cog sidebar-icon settings-cog" title="Settings"></i>
+        <i class="fas fa-right-from-bracket sidebar-icon sidebar-icon-bottom" title="Logout" id="logout-button"></i>
     </div>
 
     <!-- Dashboard Page -->
@@ -130,14 +130,28 @@
                 <i class="fas fa-envelope"></i>
                 <h3>Notifications</h3>
             </div>
+            <div class="config-card" onclick="showConfig('account')">
+                <i class="fas fa-user"></i>
+                <h3>Account</h3>
+            </div>            
         </div>
         <div id="config-details"></div>
     </div>
 
+    <!-- Modal Overlay for Configuration -->
+    <div id="config-modal-overlay" class="config-modal-overlay hidden">
+        <div class="config-modal-content">
+            <button id="close-config-modal" class="close-modal-btn">X</button>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+
     <!-- Scripts -->
-    <script src="devices.js"></script>
-    <script src="alerts.js"></script>
-    <script src="router.js"></script>
+    <script src="Assets/devices.js"></script>
+    <script src="Assets/alerts.js"></script>
+    <script src="Assets/router.js"></script>
     
     <!-- Routing Logic -->
     <script>
@@ -149,11 +163,10 @@
                 document.querySelector('.main-content:not(.hidden)').scrollTop = 0;
             });
         });
-
-        // Handle settings menu
-        document.querySelector('.settings-cog').addEventListener('click', () => {
-            const choice = confirm("Open user settings?");
-            if(choice) window.location.hash = 'user-settings';
+        
+        // Handle logout
+        document.getElementById('logout-button').addEventListener('click', function() {
+            window.location.href = '/logout';  // Redirect to the logout route
         });
 
         // Initial device load
@@ -161,6 +174,53 @@
             updateDevices();
             updateAlerts();
         });
+
+        function showConfig(configType) {
+            // Get modal elements
+            const modalOverlay = document.getElementById('config-modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+
+            // Show the modal overlay
+            modalOverlay.style.display = 'flex';
+
+            // Set the title and body content based on configType
+            switch(configType) {
+                case 'alert-rules':
+                    modalTitle.textContent = 'Alert Rules';
+                    modalBody.innerHTML = '<p>Configure your alert rules here...</p>';
+                    break;
+                case 'device-management':
+                    modalTitle.textContent = 'Device Management';
+                    modalBody.innerHTML = '<p>Manage your devices here...</p>';
+                    break;
+                case 'notifications':
+                    modalTitle.textContent = 'Notifications';
+                    modalBody.innerHTML = '<p>Set up notification preferences here...</p>';
+                    break;
+                case 'account':
+                    modalTitle.textContent = 'Account Settings';
+                    modalBody.innerHTML = '<p>Change your account settings here...</p>';
+                    break;
+                default:
+                    modalTitle.textContent = 'Settings';
+                    modalBody.innerHTML = '<p>Configure general settings here...</p>';
+                    break;
+            }
+        }
+
+        // Close modal when the close button is clicked
+        document.getElementById('close-config-modal').addEventListener('click', function() {
+            document.getElementById('config-modal-overlay').style.display = 'none';
+        });
+        // Close modal if clicking outside of the modal content
+        document.getElementById('config-modal-overlay').addEventListener('click', function(event) {
+            // If the clicked area is the overlay (outside the modal content), close the modal
+            if (event.target === this) {
+                document.getElementById('config-modal-overlay').style.display = 'none';
+            }
+        });
+
     </script>
 </body>
 </html>
