@@ -1,11 +1,11 @@
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from scapy.all import *
 import threading
 import queue
 from plyer import notification
-import getpass
 import subprocess
+import time
 
 arp_log_list = []
 
@@ -17,6 +17,10 @@ def check_arp_log():
 
 log_queue = queue.Queue()
 
+iot_traffic = {"MQTT": []}  # Store timestamps of IoT traffic
+IOT_THRESHOLD = 5  # Number of packets before triggering an alert
+IOT_TIME_WINDOW = timedelta(seconds=30)  # Time window to track IoT traffic
+
 class AlertSystem:
     def __init__(self, alert_log="alerts.log"):
         self.alert_log = alert_log
@@ -24,18 +28,11 @@ class AlertSystem:
     def send_alert(self, message):
         print(f"ALERT: {message}")
         self.log_alert(message)
-        self.show_os_notification(message)
 
     def log_alert(self, message):
         with open(self.alert_log, "a") as log_file:
             log_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {message}\n")
 
-    def show_os_notification(self, message):
-        notification.notify(
-            title="Network Alert",
-            message=message,
-            timeout=5
-        )
 
 class PacketHandler(threading.Thread):
     def __init__(self, alert_system, gateway_ip, iface):
@@ -72,6 +69,11 @@ class PacketHandler(threading.Thread):
                 self.log_packet("ARP_Spoofing", packet)
             self.arp_table[src_ip] = src_mac
 
+        if packet.haslayer(Dot11) and packet.type == 0 and packet.subtype == 12:
+            message = f"[!] Deauth Attack Detected: {packet.addr2}"
+            self.alert_system.send_alert(message)
+            self.log_packet("Deauth", packet)
+
         if packet.haslayer(TCP):
             if packet[TCP].dport in [20, 21]:
                 message = f"[!] FTP Detected: {packet[IP].src} -> {packet[IP].dst}"
@@ -88,9 +90,7 @@ class PacketHandler(threading.Thread):
                 self.log_packet("HTTP", packet)
 
             if packet[TCP].dport == 1883:
-                message = f"[!] MQTT Traffic: {packet[IP].src} -> {packet[IP].dst}"
-                self.alert_system.send_alert(message)
-                self.log_packet("MQTT", packet)
+                self.track_iot_traffic("MQTT", packet)
 
             if packet[TCP].dport == 23:
                 message = f"[!] Telnet Detected: {packet[IP].src} -> {packet[IP].dst}"
@@ -104,6 +104,17 @@ class PacketHandler(threading.Thread):
 
         if is_suspicious:
             self.log_packet("Suspicious", packet)
+
+    def track_iot_traffic(self, protocol, packet):
+        now = datetime.now()
+        iot_traffic[protocol].append(now)
+        iot_traffic[protocol] = [t for t in iot_traffic[protocol] if now - t < IOT_TIME_WINDOW]
+        
+        if len(iot_traffic[protocol]) > IOT_THRESHOLD:
+            message = f"[!] High {protocol} Traffic Volume Detected: {len(iot_traffic[protocol])} packets in {IOT_TIME_WINDOW.seconds} seconds"
+            self.alert_system.send_alert(message)
+            self.log_packet(f"High_{protocol}_Traffic", packet)
+            iot_traffic[protocol] = []  # Reset tracking after alert
 
     def log_packet(self, packet_type, packet):
         log_entry = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {packet_type}: {packet.summary()}\n"
@@ -125,6 +136,8 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python3 ids_TRY3.py <interface> <gateway_ip>")
         sys.exit(1)
+        
+    check_arp_log()
 
     iface = sys.argv[1]
     gateway_ip = sys.argv[2]
@@ -133,10 +146,11 @@ if __name__ == "__main__":
     try:
         print("Starting IDS...")
         monitor.start()
-        while True:
+        while monitor.running:
             time.sleep(1)  # Keep the script running
     except KeyboardInterrupt:
         print("\nStopping IDS...")
         monitor.stop()
-        monitor.join()  # Ensure thread stops before exiting
+        if monitor.is_alive():
+            monitor.join()  # Ensure thread stops before exiting
         sys.exit(0)
