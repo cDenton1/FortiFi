@@ -6,6 +6,7 @@ from scapy.all import *
 import threading
 import queue
 import time
+import subprocess
 
 arp_log_list = []
 
@@ -177,19 +178,20 @@ def get_gateway_ip():
         print(f"Error fetching gateway IP: {e}")
         return None
 
-
 def get_network_interface():
     try:
-        result = subprocess.run(['ip', 'a'], capture_output=True, text=True)
+        # Run 'ip link show' and filter for wireless interfaces (wlan)
+        result = subprocess.run(['ip', '-o', 'link'], capture_output=True, text=True)
+
         for line in result.stdout.splitlines():
-            if 'state UP' in line:
+            if 'wlan' in line:
                 interface = line.split(":")[1].strip()
                 return interface
-        return None
+
+        return None  # No wlan interface found
     except Exception as e:
         print(f"Error fetching network interface: {e}")
         return None
-
 
 if __name__ == "__main__":
     gateway_ip = get_gateway_ip()
