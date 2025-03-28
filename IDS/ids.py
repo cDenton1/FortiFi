@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from scapy.all import *
 import threading
 import queue
-from plyer import notification
 import time
 
 arp_log_list = []
@@ -19,8 +18,8 @@ def check_arp_log():
 log_queue = queue.Queue()
 
 iot_traffic = {"MQTT": []}  # Store timestamps of IoT traffic
-IOT_THRESHOLD = 5  # Number of packets before triggering an alert
-IOT_TIME_WINDOW = timedelta(seconds=60)  # Time window to track IoT traffic
+IOT_THRESHOLD = 1  # Number of packets before triggering an alert
+IOT_TIME_WINDOW = timedelta(seconds=30)  # Time window to track IoT traffic
 
 class AlertSystem:
     def __init__(self, alert_log="alerts.log"):
@@ -51,7 +50,7 @@ class PacketHandler(threading.Thread):
             store=0,
             prn=self.handle_packet,
             filter="icmp or tcp or udp or arp or port 22 or port 80 or port 53 or port 1883 or port 23",
-            stop_filter=lambda x: not self.running
+            stop_filter=self.stop_filter
         )
 
     def handle_packet(self, packet):
@@ -117,14 +116,32 @@ class PacketHandler(threading.Thread):
     def track_iot_traffic(self, protocol, packet):
         now = datetime.now()
         iot_traffic[protocol].append(now)
+
+        # Clean up old packets outside the time window
         iot_traffic[protocol] = [t for t in iot_traffic[protocol] if now - t < IOT_TIME_WINDOW]
+
+        # Get the number of packets received in the time window
+        packet_count = len(iot_traffic[protocol])
         
-        if len(iot_traffic[protocol]) > IOT_THRESHOLD:
+        # Print the packet count for debugging purposes
+        print(f"MQTT packets received: {packet_count} in the last {IOT_TIME_WINDOW.seconds} seconds")
+
+        # Only trigger the alert if the count crosses the threshold
+        if packet_count >= 15:
             severity = "High"
-            message = f"[!] High {protocol} Traffic Volume Detected: {len(iot_traffic[protocol])} packets in {IOT_TIME_WINDOW.seconds} seconds Severity: {severity}"
+            message = f"[!] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds Severity: {severity}"
             self.alert_system.send_alert(message)
-            self.log_packet(f"High_{protocol}_Traffic", severity, packet)
-            iot_traffic[protocol] = []  # Reset tracking after alert
+            self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
+            iot_traffic[protocol] = []  # Reset the packet tracking after the alert
+        elif packet_count >= 5:
+            severity = "Medium"
+            message = f"[!] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds Severity: {severity}"
+            self.alert_system.send_alert(message)
+            self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
+            iot_traffic[protocol] = []  # Reset the packet tracking after the alert
+        elif packet_count > 0:
+            # Print out traffic below threshold for debugging
+            print(f"Low level {protocol} traffic detected but not enough to alert.")
 
     def log_packet(self, packet_type, severity, packet):
         log_entry = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {severity} {packet_type}: {packet.summary()}\n"
@@ -139,7 +156,10 @@ class PacketHandler(threading.Thread):
             self.alert_system.send_alert(message)
             return True
         return False
-        
+
+    def stop_filter(self, packet):
+        return not self.running
+
     def stop(self):
         self.running = False
 
