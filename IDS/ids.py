@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 from scapy.all import *
 import threading
 import queue
+from plyer import notification
 import time
-import subprocess
 
 arp_log_list = []
 
@@ -20,7 +20,7 @@ log_queue = queue.Queue()
 
 iot_traffic = {"MQTT": []}  # Store timestamps of IoT traffic
 IOT_THRESHOLD = 1  # Number of packets before triggering an alert
-IOT_TIME_WINDOW = timedelta(seconds=30)  # Time window to track IoT traffic
+IOT_TIME_WINDOW = timedelta(seconds=60)  # Time window to track IoT traffic
 
 class AlertSystem:
     def __init__(self, alert_log="alerts.log"):
@@ -44,18 +44,21 @@ class PacketHandler(threading.Thread):
         self.ssh_activity = {}
         self.arp_table = {}
         self.running = True
+        self.general_log_file = "traffic.log"
 
     def run(self):
         sniff(
             iface=self.iface,
             store=0,
             prn=self.handle_packet,
-            filter="icmp or tcp or udp or arp or port 22 or port 80 or port 53 or port 1883 or port 23",
+            filter="icmp or tcp or udp or arp or port 22 or port 80 or port 53 or port 1883 or port 23 or port 443",
             stop_filter=self.stop_filter
         )
 
     def handle_packet(self, packet):
         is_suspicious = False
+        
+        self.log_general_traffic(packet)
 
         if packet.haslayer(ICMP):
             severity = "Low"
@@ -95,6 +98,12 @@ class PacketHandler(threading.Thread):
                 message = f"[!] HTTP Detected: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
                 self.alert_system.send_alert(message)
                 self.log_packet("HTTP", severity, packet)
+                
+            if packet[TCP].dport == 443:
+                severity = "Low"
+                message = f"[!] HTTPS Detected: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+                self.alert_system.send_alert(message)
+                self.log_packet("HTTPS", severity, packet)
 
             if packet[TCP].dport == 1883:
                 self.track_iot_traffic("MQTT", packet)
@@ -106,8 +115,15 @@ class PacketHandler(threading.Thread):
                 self.log_packet("Telnet", severity, packet)
 
         if packet.haslayer(UDP) and packet[UDP].dport == 53 and packet.haslayer(DNS):
-            severity = "Low"
-            message = f"[!] DNS Query: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+            src_ip = "{packet{IP}.src}"
+            
+            if src_ip not in self.arp_table:
+                severity = "High"
+                message = f"[!] Suspicious DNS Query: {packet[IP].src} Severity: {severity}"
+            else:
+                severity = "Low"
+                message = f"[!] DNS Query: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+                
             self.alert_system.send_alert(message)
             self.log_packet("DNS", severity, packet)
 
@@ -125,7 +141,7 @@ class PacketHandler(threading.Thread):
         packet_count = len(iot_traffic[protocol])
         
         # Print the packet count for debugging purposes
-        print(f"MQTT packets received: {packet_count} in the last {IOT_TIME_WINDOW.seconds} seconds")
+        # print(f"MQTT packets received: {packet_count} in the last {IOT_TIME_WINDOW.seconds} seconds")
 
         # Only trigger the alert if the count crosses the threshold
         if packet_count >= 15:
@@ -134,19 +150,28 @@ class PacketHandler(threading.Thread):
             self.alert_system.send_alert(message)
             self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
             iot_traffic[protocol] = []  # Reset the packet tracking after the alert
+            
         elif packet_count >= 5:
             severity = "Medium"
             message = f"[!] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds Severity: {severity}"
             self.alert_system.send_alert(message)
             self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
             iot_traffic[protocol] = []  # Reset the packet tracking after the alert
-        elif packet_count > 0:
+            
+        # elif packet_count > 0:
             # Print out traffic below threshold for debugging
-            print(f"Low level {protocol} traffic detected but not enough to alert.")
+            # print(f"Low level {protocol} traffic detected but not enough to alert.")
 
     def log_packet(self, packet_type, severity, packet):
         log_entry = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {severity} {packet_type}: {packet.summary()}\n"
         log_queue.put(log_entry)
+        
+    def log_general_traffic(self, packet):
+        try:
+            with open(self.general_log_file, "a") as log_file:
+                log_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {packet.summary()}\n")
+        except Exception as e:
+            print(f"Error logging general traffic: {e}")
 
     def detect_ssh_activity(self, packet):
         src_ip = packet[IP].src
@@ -178,20 +203,19 @@ def get_gateway_ip():
         print(f"Error fetching gateway IP: {e}")
         return None
 
+
 def get_network_interface():
     try:
-        # Run 'ip link show' and filter for wireless interfaces (wlan)
-        result = subprocess.run(['ip', '-o', 'link'], capture_output=True, text=True)
-
+        result = subprocess.run(['ip', 'a'], capture_output=True, text=True)
         for line in result.stdout.splitlines():
-            if 'wlan' in line:
+            if 'state UP' in line:
                 interface = line.split(":")[1].strip()
                 return interface
-
-        return None  # No wlan interface found
+        return None
     except Exception as e:
         print(f"Error fetching network interface: {e}")
         return None
+
 
 if __name__ == "__main__":
     gateway_ip = get_gateway_ip()
