@@ -34,7 +34,6 @@ class AlertSystem:
         with open(self.alert_log, "a") as log_file:
             log_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {message}\n")
 
-
 class PacketHandler(threading.Thread):
     def __init__(self, alert_system, gateway_ip, iface):
         super().__init__()
@@ -44,7 +43,6 @@ class PacketHandler(threading.Thread):
         self.ssh_activity = {}
         self.arp_table = {}
         self.running = True
-        self.general_log_file = "traffic.log"
 
     def run(self):
         sniff(
@@ -57,8 +55,6 @@ class PacketHandler(threading.Thread):
 
     def handle_packet(self, packet):
         is_suspicious = False
-        
-        self.log_general_traffic(packet)
 
         if packet.haslayer(ICMP):
             severity = "Low"
@@ -165,13 +161,6 @@ class PacketHandler(threading.Thread):
     def log_packet(self, packet_type, severity, packet):
         log_entry = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {severity} {packet_type}: {packet.summary()}\n"
         log_queue.put(log_entry)
-        
-    def log_general_traffic(self, packet):
-        try:
-            with open(self.general_log_file, "a") as log_file:
-                log_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {packet.summary()}\n")
-        except Exception as e:
-            print(f"Error logging general traffic: {e}")
 
     def detect_ssh_activity(self, packet):
         src_ip = packet[IP].src
