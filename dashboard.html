@@ -200,7 +200,47 @@
                     break;
                 case 'account':
                     modalTitle.textContent = 'Account Settings';
-                    modalBody.innerHTML = '<p>Change your account settings here...</p>';
+                    modalBody.innerHTML = `
+                    <form id="resetPasswordForm">
+                        <label for="username">Username:</label><br>
+                        <input type="text" id="username" name="username" required><br><br>
+
+                        <label for="oldPassword">Old Password:</label><br>
+                        <input type="password" id="oldPassword" name="oldPassword" required<br><br><br>
+
+                        <label for="password">New Password:</label><br>
+                        <input type="password" id="password" name="password" required><br><br>
+
+                        <button type="submit">Reset Password</button>
+                    </form>
+                    <div id="responseMessage" style="margin-top: 10px;"></div>
+                    `;
+
+                    document.getElementById("resetPasswordForm").addEventListener("submit", async function (e) {
+                        e.preventDefault();
+
+                        const username = document.getElementById("username").value;
+                        const oldPassword = document.getElementById("oldPassword").value;
+                        const password = document.getElementById("password").value;
+
+                        const response = await fetch("/reset-password", {
+                            method: "POST",
+                            headers: {
+                            "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ username, oldPassword, password }),
+                        });
+
+                        const text = await response.text();
+                        document.getElementById("responseMessage").innerHTML = text;
+
+                        // Check if reset was successful before logging out
+                        if (text.toLowerCase().includes("password reset successful")) {
+                            setTimeout(() => {
+                                window.location.href = '/logout';
+                            }, 1500); // Optional short delay so user sees message
+                        }
+                    });
                     break;
                 default:
                     modalTitle.textContent = 'Settings';

@@ -8,7 +8,7 @@ const port = 3000;
 
 const USERS_FILE = 'users.json';
 const SALT_ROUNDS = 10;
-
+app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -38,6 +38,50 @@ function isAuthenticated(req, res, next) {
 }
 
 app.use('/assets', express.static('Assets'));
+
+function resetPassword(username, oldPassword, newPassword, res) {
+    // Read current users
+    let users = {};
+    try {
+        const data = fs.readFileSync(USERS_FILE);
+        users = JSON.parse(data);
+    } catch (err) {
+        return res.send("Error reading users file.");
+    }
+
+    const existingHash = users[username];
+    if (!existingHash) {
+        return res.send("User not found.");
+    }
+
+    // Compare old password with stored hash
+    bcrypt.compare(oldPassword, existingHash, (err, result) => {
+        if (err) {
+            console.error("Bcrypt compare error:", err);
+            return res.send("Error comparing passwords.");
+        }
+
+        if (!result) {
+            return res.send("Old password is incorrect. <a href='/'>Try again</a>");
+        }
+
+        // Hash and save the new password
+        bcrypt.hash(newPassword, SALT_ROUNDS, (err, hash) => {
+            if (err) {
+                console.error("Bcrypt hash error:", err);
+                return res.send("Error hashing new password.");
+            }
+            users[username] = hash;
+            saveUsers(users);
+            res.send("Password reset successful. <a href='/'>Login here</a>");
+        });
+    });
+
+    function saveUsers(users) {
+        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+    }
+}
+
 
 app.get('/', (req, res) => {
     res.send(`
@@ -93,23 +137,6 @@ app.get('/', (req, res) => {
     `);
 });
 
-app.post('/register', (req, res) => {
-    const { username, password } = req.body;
-    if (users[username]) {
-        return res.send("Username already exists. <a href='/register'>Try again</a>");
-    }
-    bcrypt.hash(password, SALT_ROUNDS, (err, hash) => {
-        if (err) return res.send("Error creating account.");
-        users[username] = hash;
-        saveUsers(users);
-        res.send("Registration successful. <a href='/'>Login here</a>");
-    });
-});
-// Save users to file
-function saveUsers(users) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
-
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
     if (!users[username]) {
@@ -135,6 +162,12 @@ app.get('/logout', (req, res) => {
         res.redirect('/');
     });
 });
+
+app.post("/reset-password", (req, res) => {
+    const { username, oldPassword, password } = req.body;
+    resetPassword(username, oldPassword, password, res);
+  });
+  
 
 // Start server
 app.listen(port, () => {
