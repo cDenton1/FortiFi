@@ -734,3 +734,81 @@ select {
       height: 200px;
   }
 }
+
+/* Scanner Page Styles */
+.scanner-controls {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.scanner-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#scan-target {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn-scan {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-scan:hover {
+  background-color: #218838;
+}
+
+.btn-scan:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.scan-options {
+  display: flex;
+  gap: 15px;
+}
+
+.scan-results, .scan-history {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.results-container, .history-container {
+  background-color: #282c34;
+  color: #abb2bf;
+  padding: 15px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

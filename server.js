@@ -1,10 +1,20 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 const path = require('path');
 const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
+
+app.use(cors());
+
+// Add this:
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 // Middleware
 app.use(cors());
@@ -81,6 +91,116 @@ function getProtocol(message) {
     return 'Other';
 }
 
+
+// LOGIN RELATED STUFF
+const USERS_FILE = 'users.json';
+const SALT_ROUNDS = 10;
+app.use(express.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'supersecretkey',
+    resave: false,
+    saveUninitialized: true,
+}));
+app.set('view engine', 'ejs');
+
+// Load users from file
+function loadUsers() {
+    if (fs.existsSync(USERS_FILE)) {
+        return JSON.parse(fs.readFileSync(USERS_FILE));
+    }
+    return {};
+}
+
+// Initialize with default user if empty
+let users = loadUsers();
+
+// Authentication
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next();
+    }
+    res.redirect('/');
+}
+
+app.use('/assets', express.static('Assets'));
+
+function resetPassword(username, oldPassword, newPassword, res) {
+    // Read current users
+    let users = {};
+    try {
+        const data = fs.readFileSync(USERS_FILE);
+        users = JSON.parse(data);
+    } catch (err) {
+        return res.send("Error reading users file.");
+    }
+
+    const existingHash = users[username];
+    if (!existingHash) {
+        return res.send("User not found.");
+    }
+
+    // Compare old password with stored hash
+    bcrypt.compare(oldPassword, existingHash, (err, result) => {
+        if (err) {
+            console.error("Bcrypt compare error:", err);
+            return res.send("Error comparing passwords.");
+        }
+
+        if (!result) {
+            return res.send("Old password is incorrect. <a href='/'>Try again</a>");
+        }
+
+        // Hash and save the new password
+        bcrypt.hash(newPassword, SALT_ROUNDS, (err, hash) => {
+            if (err) {
+                console.error("Bcrypt hash error:", err);
+                return res.send("Error hashing new password.");
+            }
+            users[username] = hash;
+            saveUsers(users);
+            res.send("Password reset successful. <a href='/'>Login here</a>");
+        });
+    });
+
+    function saveUsers(users) {
+        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+    }
+}
+
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (!users[username]) {
+        return res.send("Invalid credentials. <a href='/'>Try again</a>");
+    }
+    bcrypt.compare(password, users[username], (err, result) => {
+        if (result) {
+            req.session.user = username;
+            res.redirect('/dashboard');  // Redirect to dashboard route
+        } else {
+            res.send("Invalid credentials. <a href='/'>Try again</a>");
+        }
+    });
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+});
+
+// Serve index.html for root
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Serve dashboard (protected)
+app.get('/dashboard', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
