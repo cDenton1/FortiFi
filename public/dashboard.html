@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FortiFi Security Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Main Dashboard -->
+    <div id="main-dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <i class="fas fa-home sidebar-icon active" title="Dashboard" data-page="dashboard"></i>
+            <i class="fas fa-search sidebar-icon" title="Scanner" data-page="scanner"></i>
+            <i class="fas fa-laptop sidebar-icon" title="Devices" data-page="devices"></i>
+            <i class="fas fa-bell sidebar-icon" title="Alerts" data-page="alerts"></i>
+            <i class="fas fa-cog sidebar-icon" title="Settings" data-page="settings"></i>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div class="main-content" id="dashboard-page">
+            <h1><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h1>
+            
+            <div class="summary-cards">
+                <div class="card">
+                    <h3><i class="fas fa-laptop"></i> Devices</h3>
+                    <p>Total: <span id="total-devices">5</span></p>
+                    <p>Active: <span id="active-devices">4</span></p>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-bell"></i> Alerts</h3>
+                    <p>Active: <span id="active-alerts">2</span></p>
+                    <p>Last 24h: <span id="daily-alerts">5</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nmap Scanner Page -->
+        <div class="main-content hidden" id="scanner-page">
+            <h1><i class="fas fa-search"></i> Network Scanner</h1>
+            
+            <div class="scanner-controls">
+                <div class="scanner-input">
+                    <input type="text" id="scan-target" placeholder="Enter IP or hostname (e.g., 192.168.1.1/24)">
+                    <button id="start-scan" class="btn-scan">
+                        <i class="fas fa-play"></i> Start Scan
+                    </button>
+                </div>
+                <div class="scan-options">
+                    <label><input type="checkbox" id="quick-scan" checked> Quick Scan</label>
+                    <label><input type="checkbox" id="service-detection"> Service Detection</label>
+                    <label><input type="checkbox" id="os-detection"> OS Detection</label>
+                </div>
+            </div>
+            
+            <div class="scan-results">
+                <h3>Scan Results</h3>
+                <div class="results-container">
+                    <pre id="scan-results">No scan results yet. Run a scan to see results here.</pre>
+                </div>
+            </div>
+            
+            <div class="scan-history">
+                <h3>Scan History</h3>
+                <div class="history-container">
+                    <pre id="scan-history">Loading scan history...</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Devices Page -->
+        <div class="main-content hidden" id="devices-page">
+            <h1><i class="fas fa-laptop"></i> Managed Devices</h1>
+            <div class="device-controls">
+                <button class="btn-silence" id="refresh-devices">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="device-grid" id="device-container">
+                <!-- Devices will be populated here -->
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div class="main-content hidden" id="alerts-page">
+            <h1>Security Alerts</h1>
+            <div class="alert-controls">
+                <div class="alert-filters">
+                    <select id="alert-severity">
+                        <option value="all">All Severities</option>
+                        <option value="critical">Critical</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                    </select>
+                    <select id="alert-protocol">
+                        <option value="all">All Protocols</option>
+                        <option value="http">HTTP</option>
+                        <option value="https">HTTPS</option>
+                        <option value="ssh">SSH</option>
+                        <option value="ftp">FTP</option>
+                        <option value="tcp">TCP</option>
+                        <option value="udp">UDP</option>
+                    </select>
+                    <select id="alert-timeframe">
+                        <option value="all">All Time</option>
+                        <option value="24h">Last 24 Hours</option>
+                        <option value="7d">Last 7 Days</option>
+                    </select>
+                </div>
+                <button class="btn-refresh" onclick="loadAlertsFromLog()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <table class="alert-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Severity</th>
+                        <th>Source IP</th>
+                        <th>Protocol</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="alert-list">
+                    <!-- Alerts will load here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="main-content hidden" id="settings-page">
+            <h1><i class="fas fa-cog"></i> System Settings</h1>
+            <div class="settings-section">
+                <h3><i class="fas fa-user"></i> User Preferences</h3>
+                <div class="setting-item">
+                    <label>Theme:</label>
+                    <select id="theme-selector">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Notifications:</label>
+                    <input type="checkbox" id="notifications-toggle" checked>
+                </div>
+                <button id="save-settings" class="btn-save"><i class="fas fa-save"></i> Save Settings</button>
+                <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Severity badges */
+        .severity-critical {
+            background-color: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .severity-high {
+            background-color: #e67e22;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .severity-medium {
+            background-color: #f1c40f;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        /* Alert table styling */
+        .alert-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .alert-table th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .alert-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .alert-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Scanner Page Styles */
+        .scanner-controls {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .scanner-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #scan-target {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn-scan {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-scan:hover {
+            background-color: #218838;
+        }
+
+        .scan-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .scan-results, .scan-history {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .results-container, .history-container {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+
+    <script>
+        // DOM Elements
+        const elements = {
+            mainDashboard: document.getElementById('main-dashboard'),
+            sidebarIcons: document.querySelectorAll('.sidebar-icon'),
+            logoutBtn: document.getElementById('logout-btn'),
+            refreshDevicesBtn: document.getElementById('refresh-devices'),
+            saveSettingsBtn: document.getElementById('save-settings')
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sidebar navigation
+            elements.sidebarIcons.forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    const page = e.target.dataset.page;
+                    
+                    // Update active icon
+                    elements.sidebarIcons.forEach(i => i.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    // Show selected page
+                    document.querySelectorAll('.main-content').forEach(el => {
+                        el.classList.add('hidden');
+                    });
+                    document.getElementById(`${page}-page`).classList.remove('hidden');
+                });
+            });
+
+            // Logout button (if you still want to keep this functionality)
+            elements.logoutBtn.addEventListener('click', () => {
+                alert('Logout functionality would go here');
+            });
+
+            // Save settings button
+            elements.saveSettingsBtn.addEventListener('click', () => {
+                alert('Settings saved successfully');
+            });
+        });
+
+        // Simple filter function for alerts
+        function filterTestAlerts() {
+            const severity = document.getElementById('alert-severity').value;
+            const rows = document.querySelectorAll('#alert-list tr');
+            
+            rows.forEach(row => {
+                const rowSeverity = row.querySelector('span[class^="severity-"]').className;
+                const showRow = severity === 'all' || rowSeverity.includes(severity);
+                row.style.display = showRow ? '' : 'none';
+            });
+        }
+        
+        // Add event listeners to filters
+        document.getElementById('alert-severity').addEventListener('change', filterTestAlerts);
+        document.getElementById('alert-timeframe').addEventListener('change', filterTestAlerts);
+        
+        // Update dashboard counters
+        document.getElementById('active-alerts').textContent = '5';
+        document.getElementById('daily-alerts').textContent = '3';
+    </script>
+
+    <!-- Scripts -->
+    <script src="/js/router.js"></script>
+    <script src="/js/devices.js"></script>
+    <script src="/js/alerts.js"></script>  
+    <script src="/js/scanner.js" type="module"></script>
+</body>
+</html>
