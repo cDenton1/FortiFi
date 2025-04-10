@@ -812,3 +812,38 @@ pre {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Scanner specific styles */
+.text-danger {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.text-warning {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.results-container {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  max-height: 500px;
+  overflow-y: auto;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+.btn-scan:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
