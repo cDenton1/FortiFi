@@ -38,6 +38,22 @@
             </div>
         </div>
 
+<<<<<<< Updated upstream
+=======
+        <!-- Devices Page -->
+        <div class="main-content hidden" id="devices-page">
+            <h1><i class="fas fa-laptop"></i> Managed Devices</h1>
+            <div class="device-controls">
+                <button class="btn-silence" id="refresh-devices" onclick="location.reload(true)">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="device-grid" id="device-container">
+                <!-- Devices will be populated here -->
+            </div>
+        </div>
+
+>>>>>>> Stashed changes
         <!-- Nmap Scanner Page -->
         <div class="main-content hidden" id="scanner-page">
             <h1><i class="fas fa-search"></i> Network Scanner</h1>
@@ -54,6 +70,14 @@
                     <label><input type="checkbox" id="service-detection"> Service Detection</label>
                     <label><input type="checkbox" id="os-detection"> OS Detection</label>
                 </div>
+                <script>
+                    // When the page loads after a refresh
+                    window.onload = function() {
+                        if (localStorage.getItem("currentPage") === "scanner-page") {
+                            document.getElementById("scanner-page").classList.remove("hidden");
+                        }
+                    }
+                </script>
             </div>
             
             <div class="scan-results">
@@ -94,6 +118,7 @@
                         <option value="critical">Critical</option>
                         <option value="high">High</option>
                         <option value="medium">Medium</option>
+                        <option value="low">Low</option>
                     </select>
                     <select id="alert-protocol">
                         <option value="all">All Protocols</option>
@@ -102,7 +127,11 @@
                         <option value="ssh">SSH</option>
                         <option value="ftp">FTP</option>
                         <option value="tcp">TCP</option>
-                        <option value="udp">UDP</option>
+                        <option value="icmp">ICMP</option>
+                        <option value="deauth">Deauth</option>
+                        <option value="arp">ARP</option>
+                        <option value="mqtt">MQTT</option>
+                        <option value="dns">DNS</option>
                     </select>
                     <select id="alert-timeframe">
                         <option value="all">All Time</option>
@@ -110,9 +139,31 @@
                         <option value="7d">Last 7 Days</option>
                     </select>
                 </div>
+<<<<<<< Updated upstream
                 <button class="btn-refresh" onclick="loadAlertsFromLog()">
+=======
+                <button class="btn-refresh" id="refresh-alerts" onclick="refreshPage()">
+>>>>>>> Stashed changes
                     <i class="fas fa-sync-alt"></i> Refresh
                 </button>
+                <script>
+                    function refreshPage() {
+                        // Save a flag before refresh
+                        localStorage.setItem("showAlertsPage", "true");
+                        location.reload();
+                    }
+                    // When the page loads
+                    window.onload = function() {
+                        if (localStorage.getItem("showAlertsPage") === "true") {
+                            // Find the alerts page div
+                            var alertsPage = document.getElementById("alerts-page");
+                            // Remove the hidden class
+                            alertsPage.classList.remove("hidden");
+                            // Clear the flag
+                            localStorage.removeItem("showAlertsPage");
+                        }
+                    }
+                </script>
             </div>
             
             <table class="alert-table">

@@ -70,10 +70,12 @@ app.get('/api/alerts', (req, res) => {
 // Helper functions
 function getSeverity(message) {
     const severityMap = {
-        'DHCP Spoofing Detected': 'critical',
-        'Insecure Protocol Detected': 'high',
+        'DHCP': 'low',
+        'HTTP': 'high',
         'SSH Traffic': 'medium',
-        'ICMP Packet': 'low'
+        'ICMP Packet': 'low',
+        'HTTPS': 'low',
+        'Telnet': 'low'
     };
     
     for (const [pattern, severity] of Object.entries(severityMap)) {
@@ -84,10 +86,17 @@ function getSeverity(message) {
 
 function getProtocol(message) {
     if (message.includes('HTTP')) return 'HTTP';
+    if (message.includes('HTTPS')) return 'HTTPS';
     if (message.includes('FTP')) return 'FTP';
     if (message.includes('SSH')) return 'SSH';
     if (message.includes('DHCP')) return 'DHCP';
     if (message.includes('ICMP')) return 'ICMP';
+    if (message.includes('TCP')) return 'TCP';
+    if (message.includes('UDP')) return 'UDP';
+    if (message.includes('Deauth')) return 'Deauth';
+    if (message.includes('ARP')) return 'ARP';
+    if (message.includes('MQTT')) return 'MQTT';
+    if (message.includes('DNS')) return 'DNS';
     return 'Other';
 }
 

@@ -1,9 +1,11 @@
 // Severity classification
 const severityMap = {
-    'DHCP Spoofing Detected': 'critical',
-    'Insecure Protocol Detected': 'high',
+    'DHCP': 'low',
+    'HTTP': 'high',
     'SSH Traffic': 'medium',
-    'ICMP Packet': 'low'
+    'ICMP Packet': 'low',
+    'HTTPS': 'low',
+    'Telnet': 'low'
 };
 
 // Modified to fetch from Node.js API
@@ -32,18 +34,35 @@ function parseLogFile(logText) {
             const timestamp = line.substring(0, 19);
             const message = line.substring(22);
             const ipMatch = message.match(/\d+\.\d+\.\d+\.\d+/);
+            const protocol = getProtocol(message);  // Get protocol first
             
+            // Set source IP to N/A for MQTT
+            const sourceIp = protocol === 'MQTT' 
+                ? 'N/A' 
+                : (ipMatch ? ipMatch[0] : 'Unknown');
+
             return {
                 timestamp,
                 severity: getSeverity(message),
-                sourceIp: ipMatch ? ipMatch[0] : 'Unknown',
-                protocol: getProtocol(message),
+                sourceIp,
+                protocol,
                 description: message
             };
         });
 }
 
 function getSeverity(message) {
+    // Check for DNS or MQTT alerts and extract severity from the message
+    if (message.includes('DNS') || message.includes('MQTT')) {
+        const severityMatch = message.match(/\b(Critical|High|Medium|Low)\b/i);
+        if (severityMatch) {
+            return severityMatch[0].toLowerCase();
+        } else {
+            return 'medium'; // Default if no severity keyword is found
+        }
+    }
+    
+    // Existing severity mapping for other protocols
     for (const [pattern, severity] of Object.entries(severityMap)) {
         if (message.includes(pattern)) return severity;
     }
@@ -59,6 +78,10 @@ function getProtocol(message) {
     if (message.includes('ICMP')) return 'ICMP';
     if (message.includes('TCP')) return 'TCP';
     if (message.includes('UDP')) return 'UDP';
+    if (message.includes('Deauth')) return 'Deauth';
+    if (message.includes('ARP')) return 'ARP';
+    if (message.includes('MQTT')) return 'MQTT';
+    if (message.includes('DNS')) return 'DNS';
     return 'Other';
 }
 
