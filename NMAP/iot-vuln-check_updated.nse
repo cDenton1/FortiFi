@@ -12,10 +12,39 @@ license = "nmap"
 categories = {"default", "safe", "discovery"}
 
 -- Scan for common IoT ports (HTTP, Telnet, etc.)
-portrule = shortport.port_or_service({21, 22, 23, 80, 443, 554, 1900}, "tcp")
+portrule = function(host, port)
+  local tcp_ports = {
+    21, 22, 23, 53, 80, 443, 554, 1900,
+    5000, 5353, 8000, 8080, 8443, 8888,
+    49152, 49153, 49154, 49155, 49156, 49157,
+    6666, 6667
+  }
+
+  local udp_ports = {
+    53, 69, 123, 161, 1900, 5353
+  }
+
+  if port.protocol == "tcp" and shortport.port_in(tcp_ports)(host, port) then
+    return true
+  end
+
+  if port.protocol == "udp" and shortport.port_in(udp_ports)(host, port) then
+    return true
+  end
+
+  return false
+end
+
 
 action = function(host, port)
     local output = {}
+    
+    if port.protocol == "udp" then
+        table.insert(output, "🔍 UDP port " .. port.number .. " detected — no specific scan logic yet.")
+    elseif port.protocol == "tcp" then
+        table.insert(output, "🔍 TCP port " .. port.number .. " detected")
+    end
+
 
     -- Add IP address to the output
     table.insert(output, "📍 Device IP: " .. host.ip)
