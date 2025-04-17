@@ -186,11 +186,15 @@ class PacketHandler(threading.Thread):
                     return  # malformed packet, skip
     
                 if handshake_type == 0x01:
+                    self.alert_system.send_alert("[Low] TLS Client Hello Detected")
                     self.log_packet("TLS_Client_Hello", "Info", packet)
                 elif handshake_type == 0x02:
+                    self.alert_system.send_alert("[Low] TLS Server Hello Detected")
                     self.log_packet("TLS_Server_Hello", "Info", packet)
                 elif handshake_type == 0x0b:
+                    self.alert_system.send_alert("[Medium] TLS Certificate Sent")
                     self.log_packet("TLS_Certificate", "Info", packet)
+
     
     def track_iot_traffic(self, protocol, packet):
         now = datetime.now()
