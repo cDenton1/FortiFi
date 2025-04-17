@@ -136,20 +136,27 @@ class PacketHandler(threading.Thread):
         if Raw in packet:
             payload = packet[Raw].load
             try:
+                if len(payload) < 4:
+                    return
+    
                 control_byte = payload[0]
                 mqtt_type = (control_byte >> 4) & 0x0F
     
-                type_str = {
+                mqtt_types = {
                     1: "CONNECT",
                     2: "CONNACK",
                     3: "PUBLISH",
                     4: "PUBACK",
                     8: "SUBSCRIBE",
                     9: "SUBACK"
-                }.get(mqtt_type, "UNKNOWN")
+                }
+    
+                type_str = mqtt_types.get(mqtt_type, "UNKNOWN")
     
                 if mqtt_type == 3:  # PUBLISH
                     topic_length = (payload[2] << 8) | payload[3]
+                    if 4 + topic_length > len(payload):
+                        return
                     topic = payload[4:4 + topic_length].decode(errors="ignore")
                     message = payload[4 + topic_length:].decode(errors="ignore")
                     log_entry = f"MQTT PUBLISH - Topic: {topic} | Message: {message}"
@@ -162,28 +169,28 @@ class PacketHandler(threading.Thread):
                 else:
                     log_entry = f"MQTT Packet Type: {type_str}"
     
-                self.alert_system.send_alert(f"[Info] {log_entry}")
                 self.log_packet("MQTT", "Info", packet)
     
             except Exception as e:
-                self.alert_system.send_alert(f"[Info] MQTT parsing failed: {e}")
+                self.log_packet("MQTT_Parse_Failed", "Low", packet)
 
     def log_tls_handshake(self, packet):
         if Raw in packet:
             data = bytes(packet[Raw].load)
     
-            if data.startswith(b'\x16\x03'):  # TLS record
-                handshake_type = data[5]
+            # Look for TLS Handshake type anywhere in first 10 bytes
+            if b'\x16\x03' in data[:10]:  # TLS handshake record
+                try:
+                    handshake_type = data[data.index(b'\x16\x03') + 5]
+                except IndexError:
+                    return  # malformed packet, skip
     
                 if handshake_type == 0x01:
-                    self.alert_system.send_alert("[Low] TLS Client Hello Detected")
-                    self.log_packet("TLS_Client_Hello", "Low", packet)
+                    self.log_packet("TLS_Client_Hello", "Info", packet)
                 elif handshake_type == 0x02:
-                    self.alert_system.send_alert("[Low] TLS Server Hello Detected")
-                    self.log_packet("TLS_Server_Hello", "Low", packet)
+                    self.log_packet("TLS_Server_Hello", "Info", packet)
                 elif handshake_type == 0x0b:
-                    self.alert_system.send_alert("[Medium] TLS Certificate Sent")
-                    self.log_packet("TLS_Certificate", "Medium", packet)
+                    self.log_packet("TLS_Certificate", "Info", packet)
     
     def track_iot_traffic(self, protocol, packet):
         now = datetime.now()
