@@ -104,8 +104,11 @@ class PacketHandler(threading.Thread):
 
             if packet[TCP].dport == 1883:
                 self.track_iot_traffic("MQTT", packet)
+                self.log_mqtt_packet(packet)
             if packet[TCP].dport == 8883:
                 self.track_iot_traffic("MQTT_TLS", packet)
+                self.log_tls_handshake(packet)
+
 
             if packet[TCP].dport == 23:
                 severity = "Low"
@@ -128,6 +131,40 @@ class PacketHandler(threading.Thread):
 
         if is_suspicious:
             self.log_packet("Suspicious", "High", packet)
+
+    def log_mqtt_packet(self, packet):
+    if Raw in packet:
+        payload = packet[Raw].load
+        try:
+            control_byte = payload[0]
+            mqtt_type = (control_byte >> 4) & 0x0F
+
+            type_str = {
+                1: "CONNECT",
+                2: "CONNACK",
+                3: "PUBLISH",
+                4: "PUBACK",
+                8: "SUBSCRIBE",
+                9: "SUBACK"
+            }.get(mqtt_type, "UNKNOWN")
+
+            if mqtt_type == 3:  # PUBLISH
+                topic_length = (payload[2] << 8) | payload[3]
+                topic = payload[4:4 + topic_length].decode(errors="ignore")
+                message = payload[4 + topic_length:].decode(errors="ignore")
+                log_entry = f"MQTT PUBLISH - Topic: {topic} | Message: {message}"
+            elif mqtt_type == 8:  # SUBSCRIBE
+                topic_length = (payload[5] << 8) | payload[6]
+                topic = payload[7:7 + topic_length].decode(errors="ignore")
+                log_entry = f"MQTT SUBSCRIBE - Topic: {topic}"
+            else:
+                log_entry = f"MQTT Packet Type: {type_str}"
+
+            self.alert_system.send_alert(f"[Info] {log_entry}")
+            self.log_packet("MQTT", "Info", packet)
+
+        except Exception as e:
+            self.alert_system.send_alert(f"[Info] MQTT parsing failed: {e}")
 
     def log_tls_handshake(self, packet):
         if Raw in packet:
