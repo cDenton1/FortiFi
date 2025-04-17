@@ -104,6 +104,8 @@ class PacketHandler(threading.Thread):
 
             if packet[TCP].dport == 1883:
                 self.track_iot_traffic("MQTT", packet)
+            elif packet[TCP].dport == 8883:
+                self.track_iot_traffic("MQTT TLS", packet)
 
             if packet[TCP].dport == 23:
                 severity = "Low"
