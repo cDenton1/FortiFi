@@ -18,7 +18,7 @@ def check_arp_log():
 
 log_queue = queue.Queue()
 
-iot_traffic = {"MQTT": []}  # Store timestamps of IoT traffic
+iot_traffic = {"MQTT": [], "MQTT_TLS": []} # Store timestamps of IoT traffic
 IOT_THRESHOLD = 1  # Number of packets before triggering an alert
 IOT_TIME_WINDOW = timedelta(seconds=60)  # Time window to track IoT traffic
 
@@ -104,6 +104,8 @@ class PacketHandler(threading.Thread):
 
             if packet[TCP].dport == 1883:
                 self.track_iot_traffic("MQTT", packet)
+            if packet[TCP].dport == 8883:
+                self.track_iot_traffic("MQTT_TLS", packet)
 
             if packet[TCP].dport == 23:
                 severity = "Low"
@@ -127,6 +129,23 @@ class PacketHandler(threading.Thread):
         if is_suspicious:
             self.log_packet("Suspicious", "High", packet)
 
+    def log_tls_handshake(self, packet):
+        if Raw in packet:
+            data = bytes(packet[Raw].load)
+    
+            if data.startswith(b'\x16\x03'):  # TLS record
+                handshake_type = data[5]
+    
+                if handshake_type == 0x01:
+                    self.alert_system.send_alert("[Low] TLS Client Hello Detected")
+                    self.log_packet("TLS_Client_Hello", "Low", packet)
+                elif handshake_type == 0x02:
+                    self.alert_system.send_alert("[Low] TLS Server Hello Detected")
+                    self.log_packet("TLS_Server_Hello", "Low", packet)
+                elif handshake_type == 0x0b:
+                    self.alert_system.send_alert("[Medium] TLS Certificate Sent")
+                    self.log_packet("TLS_Certificate", "Medium", packet)
+    
     def track_iot_traffic(self, protocol, packet):
         now = datetime.now()
         iot_traffic[protocol].append(now)
