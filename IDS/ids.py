@@ -153,10 +153,12 @@ class PacketHandler(threading.Thread):
                     topic = payload[4:4 + topic_length].decode(errors="ignore")
                     message = payload[4 + topic_length:].decode(errors="ignore")
                     log_entry = f"MQTT PUBLISH - Topic: {topic} | Message: {message}"
+    
                 elif mqtt_type == 8:  # SUBSCRIBE
                     topic_length = (payload[5] << 8) | payload[6]
                     topic = payload[7:7 + topic_length].decode(errors="ignore")
                     log_entry = f"MQTT SUBSCRIBE - Topic: {topic}"
+    
                 else:
                     log_entry = f"MQTT Packet Type: {type_str}"
     
