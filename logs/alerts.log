@@ -1,285 +1,80 @@
-2024-12-15 19:37:26 - [!] Insecure Protocol Detected: HTTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:37:26 - [!] Insecure Protocol Detected: HTTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:37:31 - [!] Insecure Protocol Detected: FTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:37:31 - [!] Insecure Protocol Detected: FTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:37:44 - [!] SSH Traffic: 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:37:44 - [!] SSH Traffic: 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:37:58 - [!] DHCP Spoofing Detected: Offer from untrusted server 0.0.0.0
-2024-12-15 19:37:58 - [!] DHCP Traffic Detected from 0.0.0.0 on eth0
-2024-12-15 19:37:58 - [!] DHCP Spoofing Detected: Offer from untrusted server 0.0.0.0
-2024-12-15 19:37:58 - [!] DHCP Traffic Detected from 192.168.1.3 on eth0
-2024-12-15 19:38:41 - [!] DHCP Spoofing Detected: Offer from untrusted server 0.0.0.0
-2024-12-15 19:38:41 - [!] DHCP Traffic Detected from 192.168.1.5 on eth0
-2024-12-15 19:38:41 - [!] DHCP Spoofing Detected: Offer from untrusted server 0.0.0.0
-2024-12-15 19:38:41 - [!] DHCP Traffic Detected from 192.168.1.3 on eth0
-2024-12-15 19:41:20 - [!] Insecure Protocol Detected: HTTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:41:21 - [!] Insecure Protocol Detected: HTTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:41:30 - [!] Insecure Protocol Detected: FTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:41:30 - [!] Insecure Protocol Detected: FTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:41:34 - [!] SSH Traffic: 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:41:34 - [!] SSH Traffic: 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:42:47 - [!] Insecure Protocol Detected: FTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:42:47 - [!] Insecure Protocol Detected: FTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:43:01 - [!] Insecure Protocol Detected: HTTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:43:01 - [!] Insecure Protocol Detected: HTTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:43:06 - [!] SSH Traffic: 192.168.1.10 -> 192.168.1.5 on eth0
-2024-12-15 19:43:06 - [!] SSH Traffic: 192.168.1.5 -> 192.168.1.10 on eth0
-2024-12-15 19:43:12 - [!] DHCP Spoofing Detected: Offer from untrusted server 0.0.0.0
-2024-12-15 19:43:12 - [!] DHCP Traffic Detected from 0.0.0.0 on eth0
-2024-12-15 19:43:12 - [!] DHCP Spoofing Detected: Offer from untrusted server 0.0.0.0
-2024-12-15 19:43:12 - [!] DHCP Traffic Detected from 192.168.1.3 on eth0
-2025-02-06 15:09:27 - ICMP Packet: 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:09:27 - ICMP Packet: 192.168.1.5 -> 192.168.1.10 on eth0
-2025-02-06 15:09:28 - ICMP Packet: 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:09:28 - ICMP Packet: 192.168.1.5 -> 192.168.1.10 on eth0
-2025-02-06 15:09:50 - [!] Insecure Protocol Detected: FTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:09:50 - [!] Insecure Protocol Detected: FTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2025-02-06 15:18:37 - ICMP Packet: 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:19:31 - ICMP Packet: 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:23:18 - ICMP Packet: 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:23:18 - ICMP Packet: 192.168.1.5 -> 192.168.1.10 on eth0
-2025-02-06 15:23:19 - ICMP Packet: 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:23:19 - ICMP Packet: 192.168.1.5 -> 192.168.1.10 on eth0
-2025-02-06 15:23:23 - [!] Insecure Protocol Detected: FTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:23:23 - [!] Insecure Protocol Detected: FTP from 192.168.1.5 -> 192.168.1.10 on eth0
-2025-02-06 15:23:29 - [!] SSH Traffic: 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:23:29 - [!] SSH Traffic: 192.168.1.5 -> 192.168.1.10 on eth0
-2025-02-06 15:24:26 - [!] Insecure Protocol Detected: HTTP from 192.168.1.10 -> 192.168.1.5 on eth0
-2025-02-06 15:24:26 - [!] Insecure Protocol Detected: HTTP from 192.168.1.5 -> 192.168.1.10 on eth0
-
-2025-03-28 12:43:00 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:43:00 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:43:00 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:43:00 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:00 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:43:00 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:43:00 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:00 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:00 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:43:00 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:00 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:00 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:43:00 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:43:01 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:43:01 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:01 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:43:01 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:43:01 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:43:01 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:01 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:43:01 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:43:01 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:43:01 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:43:01 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:43:01 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:44:51 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:44:51 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:44:51 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:44:51 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:44:51 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:44:51 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:44:51 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:44:51 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:44:51 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:44:51 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:44:51 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:44:51 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:44:51 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:44:52 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:45:42 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:45:42 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:45:42 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:45:42 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:45:42 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:45:42 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:45:42 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:45:42 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:45:42 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:45:42 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:45:42 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:45:42 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:45:42 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:45:43 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:45:43 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:45:43 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:47:15 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:15 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:15 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:15 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:15 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:15 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:15 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:15 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:16 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:16 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:16 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:16 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:16 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:16 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:16 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:16 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:16 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:47:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:17 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:17 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:17 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:17 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:17 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:17 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:17 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:17 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:17 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:17 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:17 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:17 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:17 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:18 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:18 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:18 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:18 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:18 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:18 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:47:18 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:18 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:18 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:18 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:18 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:18 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:18 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:18 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:19 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:19 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:19 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:19 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:19 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:19 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:19 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:47:19 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:19 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:47:19 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:19 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:47:19 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:19 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:20 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:47:20 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:21 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:22 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:47:22 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:23 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:47:24 - [Medium] MQTT Traffic Volume Detected: 2 packets in 60 seconds
-2025-03-28 12:47:24 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:12 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:12 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:12 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:12 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:12 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:12 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:12 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:12 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:12 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:12 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:12 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:12 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:12 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:13 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:13 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:13 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:13 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:13 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:13 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:13 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:13 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:13 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:13 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:13 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:13 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:13 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:14 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:14 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:14 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:14 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:14 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:14 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:14 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:14 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:14 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:14 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:14 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:14 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:14 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:15 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:15 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:15 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:15 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:15 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:15 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:15 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:15 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:15 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:16 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:16 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:16 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:16 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:51:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:16 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:51:16 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:16 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:16 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:51:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:16 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:17 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:18 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:19 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:20 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:51:21 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:46 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:46 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:52:46 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:52:46 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:46 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:52:46 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:46 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:46 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:46 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:46 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:52:46 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:52:46 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:46 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:47 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:47 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:52:47 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:52:47 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:47 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:47 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:47 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:52:47 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:52:47 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:47 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:47 - [!] FTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:52:47 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:47 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:48 - ICMP Packet: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:48 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:52:48 - [!] HTTP Detected: 10.0.5.4 -> 10.0.5.5 Severity: Medium
-2025-03-28 12:52:48 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:48 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:48 - [!] DNS Query: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:48 - ICMP Packet: 10.0.5.5 -> 10.0.5.4 Severity: Low
-2025-03-28 12:52:48 - [!] Telnet Detected: 10.0.5.4 -> 10.0.5.5 Severity: Low
-2025-03-28 12:52:48 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
-2025-03-28 12:52:48 - [!] FTP Detected: 10.0.5.5 -> 10.0.5.4 Severity: Medium
+2025-04-17 13:04:37 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:37 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:38 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:39 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:40 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:40 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:40 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:41 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] MQTT Traffic Volume Detected: 5 packets in 60 seconds
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:42 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:43 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:44 - [High] ARP Spoofing: 10.0.5.5 -> 00:11:22:33:44:55
+2025-04-17 13:04:44 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:45 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:46 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:47 - [Medium] MQTT Traffic Volume Detected: 5 packets in 60 seconds
+2025-04-17 13:04:47 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:48 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:49 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:50 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:51 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:52 - [Medium] MQTT Traffic Volume Detected: 5 packets in 60 seconds
+2025-04-17 13:04:52 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:52 - [High] MQTT Traffic Volume Detected: 15 packets in 60 seconds

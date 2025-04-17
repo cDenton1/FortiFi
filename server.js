@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// API endpoint to get alerts
+// Update the alerts endpoint processing
 app.get('/api/alerts', (req, res) => {
     try {
         const logPath = path.join(__dirname, 'logs', 'alerts.log');
@@ -46,13 +46,19 @@ app.get('/api/alerts', (req, res) => {
             .map(line => {
                 const timestamp = line.substring(0, 19);
                 const message = line.substring(22);
+                const protocol = getProtocol(message); // Get protocol first
                 const ipMatch = message.match(/\d+\.\d+\.\d+\.\d+/);
-                
+
+                // Handle MQTT special case
+                const sourceIp = protocol === 'MQTT' 
+                    ? 'N/A' 
+                    : (ipMatch ? ipMatch[0] : 'Unknown');
+
                 return {
                     timestamp,
                     severity: getSeverity(message),
-                    sourceIp: ipMatch ? ipMatch[0] : 'Unknown',
-                    protocol: getProtocol(message),
+                    sourceIp,
+                    protocol,
                     description: message
                 };
             });
@@ -69,19 +75,9 @@ app.get('/api/alerts', (req, res) => {
 
 // Helper functions
 function getSeverity(message) {
-    const severityMap = {
-        'DHCP': 'low',
-        'HTTP': 'high',
-        'SSH Traffic': 'medium',
-        'ICMP Packet': 'low',
-        'HTTPS': 'low',
-        'Telnet': 'low'
-    };
-    
-    for (const [pattern, severity] of Object.entries(severityMap)) {
-        if (message.includes(pattern)) return severity;
-    }
-    return 'medium';
+    // Extract severity from [brackets] in message
+    const severityMatch = message.match(/\[(Critical|High|Medium|Low)\]/i);
+    return severityMatch ? severityMatch[1].toLowerCase() : 'medium';
 }
 
 function getProtocol(message) {
@@ -133,6 +129,7 @@ function isAuthenticated(req, res, next) {
 app.use('/assets', express.static('Assets'));
 
 function resetPassword(username, oldPassword, newPassword, res) {
+    // Read current users
     let users = {};
     try {
         const data = fs.readFileSync(USERS_FILE);
@@ -146,6 +143,7 @@ function resetPassword(username, oldPassword, newPassword, res) {
         return res.send("User not found.");
     }
 
+    // Compare old password with stored hash
     bcrypt.compare(oldPassword, existingHash, (err, result) => {
         if (err) {
             console.error("Bcrypt compare error:", err);
@@ -153,9 +151,10 @@ function resetPassword(username, oldPassword, newPassword, res) {
         }
 
         if (!result) {
-            return res.send("Old password incorrect.");
+            return res.send("Old password is incorrect. <a href='/'>Try again</a>");
         }
 
+        // Hash and save the new password
         bcrypt.hash(newPassword, SALT_ROUNDS, (err, hash) => {
             if (err) {
                 console.error("Bcrypt hash error:", err);
@@ -192,7 +191,6 @@ app.post('/login', (req, res) => {
         }
     });
 });
-
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
