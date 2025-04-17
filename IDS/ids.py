@@ -18,7 +18,7 @@ def check_arp_log():
 
 log_queue = queue.Queue()
 
-iot_traffic = {"MQTT": []}  # Store timestamps of IoT traffic
+iot_traffic = {"MQTT": [], "MQTT_TLS": []} # Store timestamps of IoT traffic
 IOT_THRESHOLD = 1  # Number of packets before triggering an alert
 IOT_TIME_WINDOW = timedelta(seconds=60)  # Time window to track IoT traffic
 
