@@ -27,7 +27,7 @@ function parseLogFile(logText) {
             const protocol = getProtocol(message);
 
             // Set source IP to N/A for MQTT
-            const sourceIp = protocol === 'MQTT' 
+            const sourceIp = protocol === 'MQTT' || 'MQTT_TLS' 
                 ? 'N/A' 
                 : (ipMatch ? ipMatch[0] : 'Unknown');
 
@@ -59,6 +59,7 @@ function getProtocol(message) {
     if (message.includes('Deauth')) return 'Deauth';
     if (message.includes('ARP')) return 'ARP';
     if (message.includes('MQTT')) return 'MQTT';
+    if (message.includes('MQTT_TLS')) return 'MQTT TLS';
     if (message.includes('DNS')) return 'DNS';
     return 'Other';
 }

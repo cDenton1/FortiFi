@@ -18,7 +18,7 @@ def check_arp_log():
 
 log_queue = queue.Queue()
 
-iot_traffic = {"MQTT": []}  # Store timestamps of IoT traffic
+iot_traffic = {"MQTT": [], "MQTT_TLS": []}  # Store timestamps of IoT traffic
 IOT_THRESHOLD = 1  # Number of packets before triggering an alert
 IOT_TIME_WINDOW = timedelta(seconds=60)  # Time window to track IoT traffic
 
@@ -50,7 +50,7 @@ class PacketHandler(threading.Thread):
             iface=self.iface,
             store=0,
             prn=self.handle_packet,
-            filter="icmp or tcp or udp or arp or port 22 or port 80 or port 53 or port 1883, or port 8883 or port 23 or port 443",
+            filter="icmp or tcp or udp or arp or port 22 or port 80 or port 53 or port 1883 or port 8883 or port 23 or port 443",
             stop_filter=self.stop_filter
         )
 
@@ -104,6 +104,8 @@ class PacketHandler(threading.Thread):
 
             if packet[TCP].dport == 1883:
                 self.track_iot_traffic("MQTT", packet)
+            elif packet[TCP].dport == 8883:
+                self.track_iot_traffic("MQTT TLS", packet)
 
             if packet[TCP].dport == 23:
                 severity = "Low"
