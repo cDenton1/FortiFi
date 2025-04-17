@@ -1,0 +1,80 @@
+2025-04-17 13:04:37 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:37 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:37 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:37 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:38 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:38 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:38 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:39 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:39 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:40 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:40 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:40 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:41 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:41 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:41 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Low] ICMP Packet: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] MQTT Traffic Volume Detected: 5 packets in 60 seconds
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Low] Telnet Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [High] Suspicious DNS Query: 10.0.5.4
+2025-04-17 13:04:42 - [Low] ICMP Packet: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] HTTP Detected: 10.0.5.4 -> 10.0.5.5
+2025-04-17 13:04:42 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:43 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:44 - [High] ARP Spoofing: 10.0.5.5 -> 00:11:22:33:44:55
+2025-04-17 13:04:44 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:45 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:46 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:47 - [Medium] MQTT Traffic Volume Detected: 5 packets in 60 seconds
+2025-04-17 13:04:47 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:48 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:49 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:50 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:51 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:52 - [Medium] MQTT Traffic Volume Detected: 5 packets in 60 seconds
+2025-04-17 13:04:52 - [Medium] FTP Detected: 10.0.5.5 -> 10.0.5.4
+2025-04-17 13:04:52 - [High] MQTT Traffic Volume Detected: 15 packets in 60 seconds

@@ -44,7 +44,6 @@ class PacketHandler(threading.Thread):
         self.ssh_activity = {}
         self.arp_table = {}
         self.running = True
-        self.general_log_file = "traffic.log"
 
     def run(self):
         sniff(
@@ -57,12 +56,10 @@ class PacketHandler(threading.Thread):
 
     def handle_packet(self, packet):
         is_suspicious = False
-        
-        self.log_general_traffic(packet)
 
         if packet.haslayer(ICMP):
             severity = "Low"
-            message = f"ICMP Packet: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+            message = f"[{severity}] ICMP Packet: {packet[IP].src} -> {packet[IP].dst}"
             self.alert_system.send_alert(message)
             self.log_packet("ICMP", severity, packet)
 
@@ -70,21 +67,21 @@ class PacketHandler(threading.Thread):
             severity = "High"
             src_ip, src_mac = packet[ARP].psrc, packet[ARP].hwsrc
             if src_ip in self.arp_table and self.arp_table[src_ip] != src_mac:
-                message = f"[!] ARP Spoofing: {src_ip} -> {src_mac} Severity: {severity}"
+                message = f"[{severity}] ARP Spoofing: {src_ip} -> {src_mac}"
                 self.alert_system.send_alert(message)
                 self.log_packet("ARP_Spoofing", severity, packet)
             self.arp_table[src_ip] = src_mac
 
         if packet.haslayer(Dot11) and packet.type == 0 and packet.subtype == 12:
             severity = "High"
-            message = f"[!] Deauth Attack Detected: {packet.addr2} Severity: {severity}"
+            message = f"[{severity}] Deauth Attack Detected: {packet.addr2}"
             self.alert_system.send_alert(message)
             self.log_packet("Deauth", severity, packet)
 
         if packet.haslayer(TCP):
             if packet[TCP].dport in [20, 21]:
                 severity = "Medium"
-                message = f"[!] FTP Detected: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+                message = f"[{severity}] FTP Detected: {packet[IP].src} -> {packet[IP].dst}"
                 self.alert_system.send_alert(message)
                 self.log_packet("FTP", severity, packet)
 
@@ -95,13 +92,13 @@ class PacketHandler(threading.Thread):
 
             if packet[TCP].dport == 80:
                 severity = "Medium"
-                message = f"[!] HTTP Detected: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+                message = f"[{severity}] HTTP Detected: {packet[IP].src} -> {packet[IP].dst}"
                 self.alert_system.send_alert(message)
                 self.log_packet("HTTP", severity, packet)
                 
             if packet[TCP].dport == 443:
                 severity = "Low"
-                message = f"[!] HTTPS Detected: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+                message = f"[{severity}] HTTPS Detected: {packet[IP].src} -> {packet[IP].dst}"
                 self.alert_system.send_alert(message)
                 self.log_packet("HTTPS", severity, packet)
 
@@ -110,7 +107,7 @@ class PacketHandler(threading.Thread):
 
             if packet[TCP].dport == 23:
                 severity = "Low"
-                message = f"[!] Telnet Detected: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+                message = f"[{severity}] Telnet Detected: {packet[IP].src} -> {packet[IP].dst}"
                 self.alert_system.send_alert(message)
                 self.log_packet("Telnet", severity, packet)
 
@@ -119,10 +116,10 @@ class PacketHandler(threading.Thread):
             
             if src_ip not in self.arp_table:
                 severity = "High"
-                message = f"[!] Suspicious DNS Query: {packet[IP].src} Severity: {severity}"
+                message = f"[{severity}] Suspicious DNS Query: {packet[IP].src}"
             else:
                 severity = "Low"
-                message = f"[!] DNS Query: {packet[IP].src} -> {packet[IP].dst} Severity: {severity}"
+                message = f"[{severity}] DNS Query: {packet[IP].src} -> {packet[IP].dst}"
                 
             self.alert_system.send_alert(message)
             self.log_packet("DNS", severity, packet)
@@ -146,14 +143,14 @@ class PacketHandler(threading.Thread):
         # Only trigger the alert if the count crosses the threshold
         if packet_count >= 15:
             severity = "High"
-            message = f"[!] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds Severity: {severity}"
+            message = f"[{severity}] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds"
             self.alert_system.send_alert(message)
             self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
             iot_traffic[protocol] = []  # Reset the packet tracking after the alert
             
         elif packet_count >= 5:
             severity = "Medium"
-            message = f"[!] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds Severity: {severity}"
+            message = f"[{severity}] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds"
             self.alert_system.send_alert(message)
             self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
             iot_traffic[protocol] = []  # Reset the packet tracking after the alert
@@ -165,20 +162,13 @@ class PacketHandler(threading.Thread):
     def log_packet(self, packet_type, severity, packet):
         log_entry = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {severity} {packet_type}: {packet.summary()}\n"
         log_queue.put(log_entry)
-        
-    def log_general_traffic(self, packet):
-        try:
-            with open(self.general_log_file, "a") as log_file:
-                log_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {packet.summary()}\n")
-        except Exception as e:
-            print(f"Error logging general traffic: {e}")
 
     def detect_ssh_activity(self, packet):
         src_ip = packet[IP].src
         self.ssh_activity[src_ip] = self.ssh_activity.get(src_ip, 0) + 1
         if self.ssh_activity[src_ip] > 10:
             severity = "High"
-            message = f"[!] SSH Brute Force: {src_ip} with {self.ssh_activity[src_ip]} attempts Severity: {severity}"
+            message = f"[{severity}] SSH Brute Force: {src_ip} with {self.ssh_activity[src_ip]} attempts"
             self.alert_system.send_alert(message)
             return True
         return False
@@ -215,7 +205,6 @@ def get_network_interface():
     except Exception as e:
         print(f"Error fetching network interface: {e}")
         return None
-
 
 if __name__ == "__main__":
     gateway_ip = get_gateway_ip()
