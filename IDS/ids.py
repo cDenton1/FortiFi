@@ -50,7 +50,7 @@ class PacketHandler(threading.Thread):
             iface=self.iface,
             store=0,
             prn=self.handle_packet,
-            filter="icmp or tcp or udp or arp or port 22 or port 80 or port 53 or port 1883, or port 8883 or port 23 or port 443",
+            filter="icmp or tcp or udp or arp or port 22 or port 80 or port 53 or port 1883 or port 8883 or port 23 or port 443",
             stop_filter=self.stop_filter
         )
 
