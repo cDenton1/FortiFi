@@ -14,7 +14,6 @@ def run_nmap():
     try:
         subprocess.run([
             "nmap",
-            "-sS", "-sU",
             "-p", NMAP_PORTS,
             "--script", NMAP_SCRIPT,
             "-oN", LOG_OUTPUT,  # Save the results only to log file
