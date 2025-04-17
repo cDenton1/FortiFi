@@ -122,9 +122,6 @@ function loadUsers() {
     return {};
 }
 
-// Initialize with default user if empty
-let users = loadUsers();
-
 // Authentication
 function isAuthenticated(req, res, next) {
     if (req.session.user) {
@@ -136,7 +133,6 @@ function isAuthenticated(req, res, next) {
 app.use('/assets', express.static('Assets'));
 
 function resetPassword(username, oldPassword, newPassword, res) {
-    // Read current users
     let users = {};
     try {
         const data = fs.readFileSync(USERS_FILE);
@@ -150,7 +146,6 @@ function resetPassword(username, oldPassword, newPassword, res) {
         return res.send("User not found.");
     }
 
-    // Compare old password with stored hash
     bcrypt.compare(oldPassword, existingHash, (err, result) => {
         if (err) {
             console.error("Bcrypt compare error:", err);
@@ -158,46 +153,56 @@ function resetPassword(username, oldPassword, newPassword, res) {
         }
 
         if (!result) {
-            return res.send("Old password is incorrect. <a href='/'>Try again</a>");
+            return res.send("Old password incorrect.");
         }
 
-        // Hash and save the new password
         bcrypt.hash(newPassword, SALT_ROUNDS, (err, hash) => {
             if (err) {
                 console.error("Bcrypt hash error:", err);
                 return res.send("Error hashing new password.");
             }
+
             users[username] = hash;
-            saveUsers(users);
-            res.send("Password reset successful. <a href='/'>Login here</a>");
+            try {
+                fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+                // Send success response
+                return res.send("success");
+            } catch (e) {
+                console.error("Write error:", e);
+                return res.send("Failed to save updated password.");
+            }
         });
     });
-
-    function saveUsers(users) {
-        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-    }
 }
-
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
+    const users = loadUsers();  // <-- Load fresh data here
+
     if (!users[username]) {
         return res.send("Invalid credentials. <a href='/'>Try again</a>");
     }
+
     bcrypt.compare(password, users[username], (err, result) => {
         if (result) {
             req.session.user = username;
-            res.redirect('/dashboard');  // Redirect to dashboard route
+            res.redirect('/dashboard');
         } else {
             res.send("Invalid credentials. <a href='/'>Try again</a>");
         }
     });
 });
 
+
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/');
     });
+});
+
+app.post("/reset-password", (req, res) => {
+    const { username, oldPassword, password } = req.body;
+    resetPassword(username, oldPassword, password, res);
 });
 
 app.listen(PORT, () => {

@@ -195,9 +195,28 @@
                 </div>
                 <button id="save-settings" class="btn-save"><i class="fas fa-save"></i> Save Settings</button>
                 <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                
+                <button onclick="openResetPopup()">Reset Password</button>
+
+                <div id="reset-popup" class="modal hidden">
+                    <form id="reset-form">
+                        <h3>Reset Password</h3>
+                        <input type="text" name="username" placeholder="Username" required>
+                        <input type="password" name="oldPassword" placeholder="Old Password" required>
+                        <input type="password" name="password" placeholder="New Password" required>
+                        <div class="modal-buttons">
+                            <button type="submit">Submit</button>
+                            <button type="button" onclick="closeResetPopup()">Cancel</button>
+                        </div>
+                        <p id="reset-status"></p>
+                    </form>                    
+                </div>
             </div>
         </div>
     </div>
+
+
+    
 
     <style>
         /* Severity badges */
@@ -311,6 +330,45 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+        .modal form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal form input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            margin: 0 4px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-buttons button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .modal-buttons button[type="button"] {
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 
     <script>
@@ -344,7 +402,7 @@
 
             // Logout button (if you still want to keep this functionality)
             elements.logoutBtn.addEventListener('click', () => {
-                alert('Logout functionality would go here');
+                window.location.href = '/logout';
             });
 
             // Save settings button
@@ -364,7 +422,86 @@
                 row.style.display = showRow ? '' : 'none';
             });
         }
-        
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('reset-password-modal');
+            const openBtn = document.getElementById('reset-password-btn');
+            const closeBtn = document.getElementById('close-reset-modal');
+            const form = document.getElementById('reset-password-form');
+
+            openBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                const res = await fetch('/reset-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+                alert(result.message || 'Password reset status unknown.');
+
+                if (res.ok) {
+                    modal.classList.add('hidden');
+                    form.reset();
+                }
+            });
+        });
+        function openResetPopup() {
+        document.getElementById("reset-popup").classList.remove("hidden");
+        }
+
+        function closeResetPopup() {
+            document.getElementById("reset-popup").classList.add("hidden");
+            document.getElementById("reset-status").textContent = "";
+        }
+
+        document.getElementById("reset-form").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const statusEl = document.getElementById("reset-status");
+
+            const formData = new FormData(form);
+            const data = {
+                username: formData.get("username"),
+                oldPassword: formData.get("oldPassword"),
+                password: formData.get("password"),
+            };
+
+            statusEl.textContent = "Processing...";
+
+            const res = await fetch("/reset-password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const text = await res.text();
+            if (text.trim() === "success") {
+                statusEl.textContent = "Password reset successful. Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "/logout";
+                }, 1000);
+            } else {
+                statusEl.textContent = text;
+            }
+        });
+
+
         // Add event listeners to filters
         document.getElementById('alert-severity').addEventListener('change', filterTestAlerts);
         document.getElementById('alert-timeframe').addEventListener('change', filterTestAlerts);
