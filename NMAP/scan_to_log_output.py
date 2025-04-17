@@ -16,6 +16,8 @@ def run_nmap():
             "-p", NMAP_PORTS,
             "--script", NMAP_SCRIPT,
             "-oN", LOG_OUTPUT,  # Save the results only to log file
+            "-Pn",  # Skip host discovery (treat all hosts as online)
+            "-T4",  # Faster scan
             TARGET
         ], check=True)
         print("[+] Nmap scan complete.Results saved to", LOG_OUTPUT)
