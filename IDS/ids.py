@@ -217,8 +217,15 @@ class PacketHandler(threading.Thread):
             self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
             iot_traffic[protocol] = []  # Reset the packet tracking after the alert
             
-        elif packet_count >= 5:
+        elif packet_count >=10:
             severity = "Medium"
+            message = f"[{severity}] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds"
+            self.alert_system.send_alert(message)
+            self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
+            iot_traffic[protocol] = []
+            
+        elif packet_count >= 5:
+            severity = "Low"
             message = f"[{severity}] {protocol} Traffic Volume Detected: {packet_count} packets in {IOT_TIME_WINDOW.seconds} seconds"
             self.alert_system.send_alert(message)
             self.log_packet(f"{severity}_{protocol}_Traffic", severity, packet)
