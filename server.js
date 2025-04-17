@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const path = require('path');
 const cors = require('cors');
+const { exec } = require('child_process');
+
 
 const app = express();
 const PORT = 3000;
@@ -215,4 +217,14 @@ app.get('/', (req, res) => {
 // Serve dashboard (protected)
 app.get('/dashboard', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+app.get('/run-nmap-script', (req, res) => {
+    const scriptPath = path.join(__dirname, 'NMAP', 'scan-to-log-output.py');
+    exec(`python3 "${scriptPath}"`, (error, stdout, stderr) => {
+        if (error) {
+            return res.status(500).send(`Error: ${stderr || error.message}`);
+        }
+        res.send(stdout);
+    });
 });

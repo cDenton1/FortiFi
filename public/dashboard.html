@@ -54,7 +54,35 @@
         <!-- Nmap Scanner Page -->
         <div class="main-content hidden" id="scanner-page">
             <h1><i class="fas fa-search"></i> Network Scanner</h1>
-            
+
+            <div style="margin-top: 15px;">
+                <button id="run-nmap-script" class="btn-scan">
+                    <i class="fas fa-terminal"></i> Run Scanner Script
+                </button>
+            </div>
+            <div class="scan-results">
+                <h3>Scan Results</h3>
+                <div class="results-container">
+                    <pre id="scan-results">No scan results yet. Run a scan to see results here.</pre>
+                </div>
+            </div>
+            <script>
+                document.getElementById("run-nmap-script").addEventListener("click", async () => {
+                    const resultsEl = document.getElementById("scan-results");
+                    resultsEl.textContent = "Running scan...";
+                    
+                    try {
+                        const response = await fetch('/run-nmap-script');
+                        const data = await response.text();
+                        resultsEl.textContent = data;
+                    } catch (err) {
+                        resultsEl.textContent = "Error running script: " + err.message;
+                    }
+                });
+            </script>
+                            
+
+            <!--
             <div class="scanner-controls">
                 <div class="scanner-input">
                     <input type="text" id="scan-target" placeholder="Enter IP or hostname (e.g., 192.168.1.1/24)">
@@ -77,19 +105,13 @@
                 </script>
             </div>
             
-            <div class="scan-results">
-                <h3>Scan Results</h3>
-                <div class="results-container">
-                    <pre id="scan-results">No scan results yet. Run a scan to see results here.</pre>
-                </div>
-            </div>
-            
             <div class="scan-history">
                 <h3>Scan History</h3>
                 <div class="history-container">
                     <pre id="scan-history">Loading scan history...</pre>
                 </div>
             </div>
+        -->
         </div>
 
         <!-- Devices Page -->
