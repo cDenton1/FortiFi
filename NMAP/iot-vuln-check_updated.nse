@@ -15,7 +15,7 @@ categories = {"default", "safe", "discovery"}
 portrule = function(host, port)
   local tcp_ports = {
     21, 22, 23, 53, 80, 443, 554, 1900,
-    5000, 5353, 8000, 8080, 8443, 8888,
+    5000, 5353, 8000, 8080, 8443, 8888, 1883, 8883,
     49152, 49153, 49154, 49155, 49156, 49157,
     6666, 6667
   }
@@ -53,6 +53,12 @@ action = function(host, port)
     if port.number == 23 then
         table.insert(output, "⚠️ Telnet (insecure, often open by default) on port 23")
     end
+
+    -- FTP detection
+    if port.number == 21 then
+        table.insert(output, "📁 FTP service on port 21 — check for anonymous login.")
+    end
+
 
     -- HTTP banner/firmware detection
     if port.number == 80 or port.number == 443 then
@@ -104,6 +110,14 @@ action = function(host, port)
     if port.number == 554 then
         table.insert(output, "📹 RTSP stream may be open (check authentication!)")
     end
+
+    -- MQTT detection
+    if port.number == 1883 then
+        table.insert(output, "📡 MQTT broker detected on port 1883 — check if authentication is required.")
+    elseif port.number == 8883 then
+        table.insert(output, "📡 MQTT over TLS (port 8883) detected — check certificate and authentication.")
+    end
+
 
     -- If there’s no useful information, skip this result
     if #output == 1 then
