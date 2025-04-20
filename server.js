@@ -206,8 +206,9 @@ app.post("/reset-password", (req, res) => {
     resetPassword(username, oldPassword, password, res);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+// This allows it to listen on all interfaces (Ethernet and Wi-Fi AP)
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
 
 // Serve index.html for root
