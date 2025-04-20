@@ -94,6 +94,7 @@ function getProtocol(message) {
     if (message.includes('Deauth')) return 'Deauth';
     if (message.includes('ARP')) return 'ARP';
     if (message.includes('MQTT')) return 'MQTT';
+    if (message.includes('MQTT_TLS')) return 'MQTT TLS';
     if (message.includes('DNS')) return 'DNS';
     return 'Other';
 }
