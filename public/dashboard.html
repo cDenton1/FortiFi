@@ -14,7 +14,6 @@
         <div class="sidebar">
             <i class="fas fa-home sidebar-icon active" title="Dashboard" data-page="dashboard"></i>
             <i class="fas fa-search sidebar-icon" title="Scanner" data-page="scanner"></i>
-            <i class="fas fa-laptop sidebar-icon" title="Devices" data-page="devices"></i>
             <i class="fas fa-bell sidebar-icon" title="Alerts" data-page="alerts"></i>
             <i class="fas fa-cog sidebar-icon" title="Settings" data-page="settings"></i>
         </div>
@@ -35,19 +34,6 @@
                     <p>Active: <span id="active-alerts">2</span></p>
                     <p>Last 24h: <span id="daily-alerts">5</span></p>
                 </div>
-            </div>
-        </div>
-
-        <!-- Devices Page -->
-        <div class="main-content hidden" id="devices-page">
-            <h1><i class="fas fa-laptop"></i> Managed Devices</h1>
-            <div class="device-controls">
-                <button class="btn-silence" id="refresh-devices" onclick="location.reload(true)">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-            </div>
-            <div class="device-grid" id="device-container">
-                <!-- Devices will be populated here -->
             </div>
         </div>
 
@@ -114,7 +100,7 @@
         -->
         </div>
 
-        <!-- Devices Page -->
+        <!-- Devices Page
         <div class="main-content hidden" id="devices-page">
             <h1><i class="fas fa-laptop"></i> Managed Devices</h1>
             <div class="device-controls">
@@ -123,9 +109,9 @@
                 </button>
             </div>
             <div class="device-grid" id="device-container">
-                <!-- Devices will be populated here -->
             </div>
         </div>
+        -->
 
         <!-- Alerts Section -->
         <div class="main-content hidden" id="alerts-page">

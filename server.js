@@ -220,7 +220,7 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
 });
 
 app.get('/run-nmap-script', (req, res) => {
-    const scriptPath = path.join(__dirname, 'NMAP', 'scan-to-log-output.py');
+    const scriptPath = path.join(__dirname, 'NMAP', 'scan_to_log_output.py');
     exec(`python3 "${scriptPath}"`, (error, stdout, stderr) => {
         if (error) {
             return res.status(500).send(`Error: ${stderr || error.message}`);
